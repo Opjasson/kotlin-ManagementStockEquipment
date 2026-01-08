@@ -55,6 +55,16 @@ class SignInFragment : Fragment() {
                 LPasswordFormTxt.transformationMethod = PasswordTransformationMethod.getInstance()
             }
 
+            loginBtn.setOnClickListener {
+                var email = LEmailFormTxt.text.toString().trim()
+                var password = LPasswordFormTxt.text.toString().trim()
+
+                if (email.isEmpty() || password.isEmpty()) {
+                    LAlertForm.text = "Oops..,formulir belum terisi"
+                    LAlertForm.visibility = View.VISIBLE
+                }
+            }
+
 
         }
 

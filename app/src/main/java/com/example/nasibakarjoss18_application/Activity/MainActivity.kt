@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        // Setting tab nab
         val adapter = AuthPagerAdapter(this)
         binding.viewPager.adapter = adapter
 

@@ -56,7 +56,16 @@ class SignUpFragment : Fragment() {
                 RPasswordFormTxt.transformationMethod = PasswordTransformationMethod.getInstance()
             }
 
+            registBtn.setOnClickListener {
+                var username = RUsernameFormTxt.text.toString().trim()
+                var email = REmailFormTxt.text.toString().trim()
+                var password = RPasswordFormTxt.text.toString().trim()
 
+                if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                    RAlertForm.text = "Oops..,formulir belum terisi"
+                    RAlertForm.visibility = View.VISIBLE
+                }
+            }
         }
 
 
