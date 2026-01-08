@@ -27,75 +27,55 @@
             android:textSize="42sp"
             android:textStyle="bold" />
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/L_emailFormTxt"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:background="@drawable/white_full_corners_bg_form"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:paddingStart="8dp">
-
-            <ImageView
-                android:id="@+id/emailImg"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_gravity="center"
-                android:src="@drawable/mail" />
-
-            <EditText
-                android:id="@+id/L_emailFormTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Email"
-                android:inputType="text|textEmailAddress"
-                android:padding="8dp"
-                android:textColor="@color/black_medium"
-                android:textSize="24sp" />
-        </LinearLayout>
+            android:drawableStart="@drawable/user"
+            android:drawablePadding="8dp"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="text|textEmailAddress"
+            android:padding="12dp"
+            android:textColor="@color/black_medium"
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/white_full_corners_bg_form"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:paddingStart="8dp">
-
-            <ImageView
-                android:id="@+id/passwordImg"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_gravity="center"
-                android:src="@drawable/password" />
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/L_passwordFormTxt"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:layout_width="330dp"
+                android:layout_height="50dp"
+                android:background="@drawable/white_full_corners_bg"
+                android:drawableStart="@drawable/password"
+                android:drawablePadding="8dp"
                 android:ems="10"
                 android:hint="Password"
                 android:inputType="text|textPassword"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:textColor="@color/black_medium"
-                android:textSize="24sp" />
-
-            <ImageView
-                android:id="@+id/hideBtn"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_gravity="center"
-                android:src="@drawable/hide" />
+                android:textSize="20sp" />
 
             <ImageView
                 android:id="@+id/showBtn"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:src="@drawable/show" />
 
+            <ImageView
+                android:id="@+id/hideBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/hide" />
         </LinearLayout>
 
         <TextView
