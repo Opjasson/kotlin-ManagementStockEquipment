@@ -1,15 +1,13 @@
 package com.example.nasibakarjoss18_application.Fragment
 
 import android.os.Bundle
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
-import android.text.method.TransformationMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.nasibakarjoss18_application.Activity.AuthActivity
 import com.example.nasibakarjoss18_application.R
+import com.example.nasibakarjoss18_application.databinding.FragmentForgotPasswordBinding
 import com.example.nasibakarjoss18_application.databinding.FragmentSignInBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -19,13 +17,12 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [SignInFragment.newInstance] factory method to
+ * Use the [ForgotPasswordFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SignInFragment : Fragment() {
-    private var _binding : FragmentSignInBinding? = null
+class ForgotPasswordFragment : Fragment() {
+    private var _binding : FragmentForgotPasswordBinding? = null
     private val binding get() = _binding!!
-
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -40,41 +37,16 @@ class SignInFragment : Fragment() {
         }
 
         binding.apply {
-            showBtn.visibility = View.GONE
-            LAlertForm.visibility = View.GONE
+            FPAlertForm.visibility = View.GONE
 
-//            Toggle visibility password
-            hideBtn.setOnClickListener {
-                showBtn.visibility = View.VISIBLE
-                hideBtn.visibility = View.GONE
-
-                LPasswordFormTxt.transformationMethod = HideReturnsTransformationMethod.getInstance()
-            }
-            showBtn.setOnClickListener {
-                hideBtn.visibility = View.VISIBLE
-                showBtn.visibility = View.GONE
-                LPasswordFormTxt.transformationMethod = PasswordTransformationMethod.getInstance()
-            }
-
-            loginBtn.setOnClickListener {
-                var email = LEmailFormTxt.text.toString().trim()
-                var password = LPasswordFormTxt.text.toString().trim()
-
-                if (email.isEmpty() || password.isEmpty()) {
-                    LAlertForm.text = "Oops..,formulir belum terisi"
-                    LAlertForm.visibility = View.VISIBLE
+            forgotPasswordBtn.setOnClickListener {
+                var email = FPEmailFormTxt.text.toString().trim()
+                if (email.isEmpty()){
+                    FPAlertForm.text = "Oops..,formulir belum terisi"
+                    FPAlertForm.visibility = View.VISIBLE
                 }
             }
-
-            forgotPassTxt.setOnClickListener {
-                (requireActivity() as AuthActivity).moveToForgotPassword()
-            }
-
-
-
         }
-
-
     }
 
     override fun onCreateView(
@@ -82,14 +54,10 @@ class SignInFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentSignInBinding.inflate(inflater, container, false)
+        _binding = FragmentForgotPasswordBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null // 🚨 WAJIB (hindari memory leak)
-    }
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -97,12 +65,12 @@ class SignInFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment SignInFragment.
+         * @return A new instance of fragment ForgotPasswordFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            SignInFragment().apply {
+            ForgotPasswordFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

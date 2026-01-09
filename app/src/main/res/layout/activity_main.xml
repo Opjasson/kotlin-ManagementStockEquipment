@@ -7,28 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".Activity.MainActivity">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabIndicatorColor="#FFC107"
-            app:tabIndicatorHeight="4dp"
-            app:tabTextColor="#80FFFFFF"
-            app:tabSelectedTextColor="#FFFFFF"
-            android:background="#0A3A5E" />
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
