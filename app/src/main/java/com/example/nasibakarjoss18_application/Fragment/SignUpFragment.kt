@@ -96,8 +96,6 @@ class SignUpFragment : Fragment() {
             }
         }
 
-
-
     }
 
     override fun onCreateView(

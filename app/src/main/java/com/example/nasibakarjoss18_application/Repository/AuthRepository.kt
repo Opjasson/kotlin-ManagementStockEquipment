@@ -8,13 +8,20 @@ class AuthRepository {
     private val database = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
-//    fun loginAuth (
-//        email : String,
-//        password : String,
-//        callback: (Boolean) -> Unit
-//    ) {
-//        auth.signInWithEmailAndPassword()
-//    }
+    fun login (
+        email : String,
+        password : String,
+        onResult: (Boolean, String?) -> Unit
+    ) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnSuccessListener {
+        onResult(true, "")
+        }
+            .addOnFailureListener {
+                e ->
+                onResult(false, e.message)
+            }
+    }
 
 //  Registrasi Repository
 

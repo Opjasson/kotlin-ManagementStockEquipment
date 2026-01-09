@@ -1,5 +1,6 @@
 package com.example.nasibakarjoss18_application.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -9,7 +10,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.nasibakarjoss18_application.Activity.AuthActivity
+import com.example.nasibakarjoss18_application.Activity.MainActivity
 import com.example.nasibakarjoss18_application.R
 import com.example.nasibakarjoss18_application.ViewModel.AuthViewModel
 import com.example.nasibakarjoss18_application.databinding.FragmentSignInBinding
@@ -72,14 +75,28 @@ class SignInFragment : Fragment() {
                 }else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     LAlertForm.text = "Contoh : emailkamu@email.com"
                     LAlertForm.visibility = View.VISIBLE
+                }else {
+                    viewModel.loginUser(email, password)
                 }
             }
 
             forgotPassTxt.setOnClickListener {
                 (requireActivity() as AuthActivity).moveToForgotPassword()
             }
+        }
 
+        viewModel.loginState.observe(this) {
+            result ->
+            result.onSuccess {
+                message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                startActivity(Intent(requireContext(), MainActivity::class.java))
+            }
 
+            result.onFailure {
+                binding.LAlertForm.text = "Email atau Password salah!"
+                binding.LAlertForm.visibility = View.VISIBLE
+            }
         }
 
 
