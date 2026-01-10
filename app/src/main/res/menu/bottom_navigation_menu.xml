@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/main"
+        android:icon="@drawable/home"
+        android:title="Home"
+        />
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/toggle"
+        android:title="Search"
+        />
+
+    <item
+        android:id="@+id/notif"
+        android:icon="@drawable/bell"
+        android:title="Notifikasi"
+        />
+
+    <item
+        android:id="@+id/account"
+        android:icon="@drawable/usertabs"
+        android:title="Account"
+        />
+</menu>

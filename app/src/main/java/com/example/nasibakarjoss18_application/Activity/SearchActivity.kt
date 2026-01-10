@@ -4,26 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.nasibakarjoss18_application.Adapter.AuthPagerAdapter
 import com.example.nasibakarjoss18_application.R
-import com.example.nasibakarjoss18_application.databinding.ActivityMainBinding
-import com.google.android.material.tabs.TabLayoutMediator
+import com.example.nasibakarjoss18_application.databinding.ActivitySearchBinding
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityMainBinding
-
+class SearchActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySearchBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        updateBottomNavIcon(R.id.main)
-        binding.bottomNav.selectedItemId = R.id.main
+        binding = ActivitySearchBinding.inflate(layoutInflater)
+        updateBottomNavIcon(R.id.search)
+        binding.bottomNav.selectedItemId = R.id.search
         setContentView(binding.root)
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -32,8 +27,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNav.setOnItemSelectedListener { item ->
             if (item.itemId == binding.bottomNav.selectedItemId) {
-                binding.bottomNav.menu.findItem(R.id.main).icon =
-                    ContextCompat.getDrawable(this, R.drawable.homecolor)
+                binding.bottomNav.menu.findItem(R.id.search).icon =
+                    ContextCompat.getDrawable(this, R.drawable.togglecolor)
                 return@setOnItemSelectedListener true
             }
 
@@ -49,34 +44,14 @@ class MainActivity : AppCompatActivity() {
     private fun updateBottomNavIcon(activeItemId: Int) {
         val menu = binding.bottomNav.menu
 
-        // Home
-        menu.findItem(R.id.main).icon =
+        // Search
+        menu.findItem(R.id.search).icon =
             ContextCompat.getDrawable(
                 this,
-                if (activeItemId == R.id.main)
-                    R.drawable.homecolor
+                if (activeItemId == R.id.search)
+                    R.drawable.togglecolor
                 else
-                    R.drawable.home
+                    R.drawable.toggle
             )
-
-//        // Search
-//        menu.findItem(R.id.search).icon =
-//            ContextCompat.getDrawable(
-//                this,
-//                if (activeItemId == R.id.search)
-//                    R.drawable.ic_search_active
-//                else
-//                    R.drawable.ic_search_inactive
-//            )
-//
-//        // Profile
-//        menu.findItem(R.id.profile).icon =
-//            ContextCompat.getDrawable(
-//                this,
-//                if (activeItemId == R.id.profile)
-//                    R.drawable.ic_profile_active
-//                else
-//                    R.drawable.ic_profile_inactive
-//            )
     }
 }
