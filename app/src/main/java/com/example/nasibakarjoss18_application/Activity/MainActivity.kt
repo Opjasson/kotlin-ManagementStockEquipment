@@ -2,6 +2,7 @@ package com.example.nasibakarjoss18_application.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,23 +10,32 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nasibakarjoss18_application.Adapter.AuthPagerAdapter
 import com.example.nasibakarjoss18_application.Adapter.KategoriAdapter
 import com.example.nasibakarjoss18_application.R
+import com.example.nasibakarjoss18_application.ViewModel.AuthViewModel
 import com.example.nasibakarjoss18_application.ViewModel.KategoriViewModel
 import com.example.nasibakarjoss18_application.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.api.Context
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private val viewModel = KategoriViewModel()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+
         binding = ActivityMainBinding.inflate(layoutInflater)
+
         updateBottomNavIcon(R.id.main)
+
         binding.bottomNav.selectedItemId = R.id.main
         setContentView(binding.root)
 
@@ -66,8 +76,18 @@ class MainActivity : AppCompatActivity() {
             binding.kategoriView.adapter = KategoriAdapter(list)
             binding.loadKategori.visibility = View.GONE
         }
+
+        authViewModel.getUserId().observe(this) { userId ->
+            if (userId == "PZ2LOzb4IbTGW2ZqBnrEu7rgxBP2") {
+                binding.admBtn.visibility = View.GONE
+            }else {
+                binding.admBtn.visibility = View.VISIBLE
+            }
+        }
+
     }
 
+//    bottom Nav Setting
     private fun updateBottomNavIcon(activeItemId: Int) {
         val menu = binding.bottomNav.menu
 

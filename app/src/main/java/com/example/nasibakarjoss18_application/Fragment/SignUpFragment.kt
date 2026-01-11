@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.example.nasibakarjoss18_application.Activity.AuthActivity
 import com.example.nasibakarjoss18_application.Activity.MainActivity
 import com.example.nasibakarjoss18_application.R
@@ -32,14 +33,13 @@ class SignUpFragment : Fragment() {
     private var _binding : FragmentSignUpBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel = AuthViewModel()
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     override fun onViewCreated(view : View, savedInstanceState: Bundle?) {
-
+        val viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {

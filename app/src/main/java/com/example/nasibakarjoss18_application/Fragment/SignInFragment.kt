@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.text.method.TransformationMethod
+import android.util.Log
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.example.nasibakarjoss18_application.Activity.AuthActivity
 import com.example.nasibakarjoss18_application.Activity.MainActivity
 import com.example.nasibakarjoss18_application.R
@@ -31,7 +33,7 @@ class SignInFragment : Fragment() {
     private var _binding : FragmentSignInBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel = AuthViewModel()
+
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -39,6 +41,7 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view : View, savedInstanceState: Bundle?) {
 
+        val viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
@@ -89,6 +92,7 @@ class SignInFragment : Fragment() {
             result ->
             result.onSuccess {
                 message ->
+                viewModel.saveUserIdToLocal()
                 Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 startActivity(Intent(requireContext(), MainActivity::class.java))
             }
