@@ -8,6 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class PopularRepository {
     private val database = FirebaseFirestore.getInstance()
 
+//    get item based on popular
     fun getPopularItem (
         callback: (MutableList<ItemsModel>) -> Unit
     ) {
@@ -18,4 +19,17 @@ class PopularRepository {
                 callback(it.toObjects(ItemsModel::class.java).toMutableList())
             }
     }
+
+//     get item by itemId
+fun getItemByItemId(
+    itemId: Long,
+    callback: (List<ItemsModel>) -> Unit
+) {
+    database.collection("items")
+        .whereEqualTo("itemId", itemId)
+        .get()
+        .addOnSuccessListener {
+            callback(it.toObjects(ItemsModel::class.java))
+        }
+}
 }

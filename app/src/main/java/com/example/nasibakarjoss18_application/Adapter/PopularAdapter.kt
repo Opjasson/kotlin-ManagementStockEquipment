@@ -37,7 +37,9 @@ class PopularAdapter :
 
     override fun onBindViewHolder(holder: Viewholder, position: Int) {
         holder.binding.popularCard.setOnClickListener {
-            val intent = Intent(context, DetailActivity::class.java)
+            val intent = Intent(context, DetailActivity::class.java).apply {
+
+            }
             ContextCompat.startActivity(context, intent, null)
         }
         val item = items[position]
