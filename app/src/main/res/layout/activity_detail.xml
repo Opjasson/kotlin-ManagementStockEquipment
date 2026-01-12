@@ -77,7 +77,7 @@
             android:background="@drawable/white_full_corners_bg_form"
             android:ems="10"
             android:hint="Nama Barang"
-            android:inputType="text|textEmailAddress"
+            android:inputType="text"
             android:padding="12dp"
             android:textColor="@color/black_medium"
             android:textSize="20sp" />
@@ -141,7 +141,7 @@
                 android:src="@drawable/minus" />
 
             <EditText
-                android:id="@+id/L_passwordFormTxt"
+                android:id="@+id/jumlahBarangForm"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -149,7 +149,7 @@
                 android:drawablePadding="8dp"
                 android:ems="10"
                 android:hint="Jumlah Barang"
-                android:inputType="text|textPassword"
+                android:inputType="text"
                 android:padding="12dp"
                 android:textColor="@color/black_medium"
                 android:textSize="20sp" />
@@ -165,7 +165,7 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/nameItemFormTxt3"
+            android:id="@+id/gambarBarangForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
@@ -173,7 +173,7 @@
             android:drawableEnd="@drawable/image"
             android:ems="10"
             android:hint="Gambar Barang"
-            android:inputType="text|textEmailAddress"
+            android:inputType="text"
             android:padding="12dp"
             android:textColor="@color/black_medium"
             android:textSize="20sp" />

@@ -9,4 +9,5 @@ data class ItemsModel(
     var deskripsi : String = "",
     var imgUrl : String = "",
     var popular : Boolean = false,
+    var jumlahBarang : Long = 0,
 ) : Serializable

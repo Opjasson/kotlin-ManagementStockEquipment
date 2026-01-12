@@ -2,17 +2,24 @@ package com.example.nasibakarjoss18_application.Activity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.nasibakarjoss18_application.R
+import com.example.nasibakarjoss18_application.ViewModel.PopularViewModel
 import com.example.nasibakarjoss18_application.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
+    private val viewModel: PopularViewModel by viewModels()
 
+    //    variable put extra
+    private var id: Long = 0
+    private var nama: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,9 +34,30 @@ class DetailActivity : AppCompatActivity() {
         }
 
         initFormItem()
+        getBundles()
     }
 
     fun initFormItem () {
+        viewModel.itemResult.observe(this){
+                data ->
+            binding.apply {
+                nameItemFormTxt.setText(data[0].nama.toString())
+                jumlahBarangForm.setText(data[0].jumlahBarang.toString())
+
+                plusBtn.setOnClickListener {
+                    val current = jumlahBarangForm.text.toString().toIntOrNull() ?: 0
+                    val newJumlah = current + 1
+                    jumlahBarangForm.setText(newJumlah.toString())
+                }
+                minBtn.setOnClickListener {
+                    val current = jumlahBarangForm.text.toString().toIntOrNull() ?: 0
+                    val newJumlah = current - 1
+                    jumlahBarangForm.setText(newJumlah.toString())
+                }
+            }
+        }
+        viewModel.loadData(id)
+
         val items = listOf("Makanan", "Minuman", "Snack")
 
         val adapter = ArrayAdapter(
@@ -54,7 +82,11 @@ class DetailActivity : AppCompatActivity() {
         binding.backBtn.setOnClickListener {
             finish()
         }
+    }
 
-
+    private fun getBundles() {
+        //            Get context from put extra
+        id = intent.getLongExtra("id",0)!!
+        nama = intent.getStringExtra("nama")!!
     }
 }

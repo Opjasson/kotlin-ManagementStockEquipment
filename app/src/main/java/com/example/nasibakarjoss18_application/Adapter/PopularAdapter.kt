@@ -36,13 +36,14 @@ class PopularAdapter :
     }
 
     override fun onBindViewHolder(holder: Viewholder, position: Int) {
+        val item = items[position]
         holder.binding.popularCard.setOnClickListener {
             val intent = Intent(context, DetailActivity::class.java).apply {
-
+                putExtra("id", item.itemId)
+                putExtra("nama", item.nama)
             }
             ContextCompat.startActivity(context, intent, null)
         }
-        val item = items[position]
         holder.binding.titleTxt.text = item.nama
         holder.binding.subtitleTxt.text = item.deskripsi
 
