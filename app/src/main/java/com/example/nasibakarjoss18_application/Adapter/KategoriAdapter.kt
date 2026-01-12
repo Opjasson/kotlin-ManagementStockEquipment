@@ -27,6 +27,7 @@ class KategoriAdapter(val items : MutableList<KategoriModel>)
 
     override fun onBindViewHolder(holder: KategoriAdapter.Viewholder, position: Int) {
         val item = items[position]
+        Log.d("itemKatgeori", item.toString())
         holder.binding.titleCat.text = item.title
     }
 

@@ -92,7 +92,7 @@ class SignInFragment : Fragment() {
             result ->
             result.onSuccess {
                 message ->
-                viewModel.saveUserIdToLocal()
+//                viewModel.saveUserIdToLocal()
                 Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 startActivity(Intent(requireContext(), MainActivity::class.java))
             }

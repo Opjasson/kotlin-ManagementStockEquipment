@@ -18,8 +18,8 @@ import kotlinx.coroutines.launch
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = AuthRepository()
 
+//    Handle save userId data store
     private val userPreference = UserPreference(application)
-
     fun saveUserIdToLocal() {
         val userId = repository.getCurrentUserId()
 

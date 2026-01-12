@@ -10,13 +10,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nasibakarjoss18_application.Adapter.AuthPagerAdapter
 import com.example.nasibakarjoss18_application.Adapter.KategoriAdapter
+import com.example.nasibakarjoss18_application.Adapter.PopularAdapter
 import com.example.nasibakarjoss18_application.R
 import com.example.nasibakarjoss18_application.ViewModel.AuthViewModel
 import com.example.nasibakarjoss18_application.ViewModel.KategoriViewModel
+import com.example.nasibakarjoss18_application.ViewModel.PopularViewModel
 import com.example.nasibakarjoss18_application.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.api.Context
@@ -66,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-//        Tampilkan data dari viewModel
+//        Tampilkan data dari viewModel kategori
         binding.loadKategori.visibility = View.VISIBLE
         viewModel.kategoriState.observe(this){
             list ->
@@ -85,7 +89,37 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        initPopular()
     }
+
+//    Get Data Popular
+    private fun initPopular() {
+        var adapterPopular: PopularAdapter
+        var viewModelPopular: PopularViewModel
+
+            // 1. INIT VIEWMODEL
+            viewModelPopular = ViewModelProvider(this)[PopularViewModel::class.java]
+
+            // 2. INIT ADAPTER
+            adapterPopular = PopularAdapter()
+
+            // 3. SET RECYCLERVIEW
+            binding.popularView.apply {
+                layoutManager = GridLayoutManager(this@MainActivity, 2)
+                adapter = adapterPopular
+            }
+            // 4. OBSERVE DATA
+            viewModelPopular.popularResult.observe(this) { list ->
+                binding.loadPopular.visibility = View.GONE
+                adapterPopular.setData(list)
+            }
+
+            // 5. PANGGIL DATA
+            viewModelPopular.getPopularItem()
+
+    }
+
+
 
 //    bottom Nav Setting
     private fun updateBottomNavIcon(activeItemId: Int) {

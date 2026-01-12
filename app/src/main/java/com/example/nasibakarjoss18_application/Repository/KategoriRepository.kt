@@ -16,6 +16,7 @@ class KategoriRepository {
         database.collection("kategori")
             .get()
             .addOnSuccessListener {
+                Log.d("LISTDATA99", "ada : ${it.size()}")
                 callback(it.toObjects(KategoriModel::class.java).toMutableList())
             }
     }

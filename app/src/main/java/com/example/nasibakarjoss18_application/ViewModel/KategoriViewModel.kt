@@ -14,7 +14,7 @@ class KategoriViewModel : ViewModel() {
 
     fun getKategori () {
         repository.getKategori() {
-
+            Log.d("LISTDATA2", it.toString())
             _kategoriState.value = it
         }
     }
