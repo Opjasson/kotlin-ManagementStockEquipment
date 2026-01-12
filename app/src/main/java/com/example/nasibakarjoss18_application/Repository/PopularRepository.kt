@@ -12,6 +12,7 @@ class PopularRepository {
         callback: (MutableList<ItemsModel>) -> Unit
     ) {
         database.collection("items")
+            .whereEqualTo("popular", true)
             .get()
             .addOnSuccessListener {
                 callback(it.toObjects(ItemsModel::class.java).toMutableList())
