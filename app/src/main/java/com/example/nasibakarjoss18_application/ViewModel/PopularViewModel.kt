@@ -11,12 +11,23 @@ class PopularViewModel : ViewModel() {
 
 //    Get item popular
 private val repository = PopularRepository()
+
+//    get popular item view model
 private val _popularResult = MutableLiveData<List<ItemsModel>>()
 val popularResult : LiveData<List<ItemsModel>> = _popularResult
 fun getPopularItem () {
     repository.getPopularItem() {
-        Log.d("VM_DATA", "DATA MASUK VM: ${it.size}")
         _popularResult.value = it
     }
 }
+
+//    get item by itemId
+private val _itemResult = MutableLiveData<List<ItemsModel>>()
+    val itemResult: LiveData<List<ItemsModel>> = _itemResult
+
+    fun loadData(id : Long) {
+        repository.getItemByItemId(id) {
+            _itemResult.value = it
+        }
+    }
 }
