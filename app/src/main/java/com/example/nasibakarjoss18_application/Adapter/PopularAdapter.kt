@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.nasibakarjoss18_application.Domain.ItemsModel
 import com.example.nasibakarjoss18_application.databinding.ViewholderItemcardBinding
 
@@ -12,6 +13,7 @@ class PopularAdapter :
     RecyclerView.Adapter<PopularAdapter.Viewholder>() {
 
     private val items = mutableListOf<ItemsModel>()
+    private lateinit var context: Context
 
     inner class Viewholder(
         val binding: ViewholderItemcardBinding
@@ -21,6 +23,7 @@ class PopularAdapter :
         parent: ViewGroup,
         viewType: Int
     ): Viewholder {
+        context = parent.context
         val binding = ViewholderItemcardBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -31,8 +34,9 @@ class PopularAdapter :
 
     override fun onBindViewHolder(holder: Viewholder, position: Int) {
         val item = items[position]
-        Log.d("ITEM", item.nama)
         holder.binding.titleTxt.text = item.nama
+
+        Glide.with(context).load(item.imgUrl).into(holder.binding.pic)
     }
 
     override fun getItemCount(): Int = items.size

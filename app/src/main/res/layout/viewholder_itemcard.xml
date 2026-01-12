@@ -15,12 +15,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/pic"
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:layout_marginBottom="70dp"
+        android:padding="8dp"
         android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/RoundedImage"
         app:layout_constraintBottom_toBottomOf="@id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
