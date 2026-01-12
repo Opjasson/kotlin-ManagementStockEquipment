@@ -35,6 +35,7 @@ class PopularAdapter :
     override fun onBindViewHolder(holder: Viewholder, position: Int) {
         val item = items[position]
         holder.binding.titleTxt.text = item.nama
+        holder.binding.subtitleTxt.text = item.deskripsi
 
         Glide.with(context).load(item.imgUrl).into(holder.binding.pic)
     }
