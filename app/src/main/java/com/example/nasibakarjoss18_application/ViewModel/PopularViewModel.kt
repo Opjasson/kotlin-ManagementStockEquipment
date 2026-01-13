@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.example.nasibakarjoss18_application.Domain.ItemsModel
 import com.example.nasibakarjoss18_application.Repository.CloudinaryRepository
 import com.example.nasibakarjoss18_application.Repository.PopularRepository
+import com.google.firebase.firestore.FirebaseFirestore
 
 class PopularViewModel : ViewModel() {
 
@@ -34,6 +35,7 @@ private val _itemResult = MutableLiveData<List<ItemsModel>>()
         }
     }
 
+//    Backend cloudinary
     private val repo = CloudinaryRepository()
     val imageUrl = MutableLiveData<String>()
 
@@ -46,6 +48,7 @@ private val _itemResult = MutableLiveData<List<ItemsModel>>()
         )
     }
 
+//    Update item
     val updateStatus = MutableLiveData<Boolean>()
 
     fun updateItem(
@@ -60,4 +63,7 @@ private val _itemResult = MutableLiveData<List<ItemsModel>>()
             updateStatus.value = it
         }
     }
+
+//    Get all items
+
 }

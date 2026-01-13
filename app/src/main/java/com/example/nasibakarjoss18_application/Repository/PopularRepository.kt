@@ -66,4 +66,29 @@ fun updateItem(
             onResult(false)
         }
 }
+
+    //    Get all items MainActivity
+    fun getAllItems(callback: (MutableList<ItemsModel>) -> Unit) {
+        database.collection("items")
+            .get()
+            .addOnSuccessListener {
+                callback(it.toObjects(ItemsModel::class.java).toMutableList())
+            }
+    }
+
+    //    Handle search items MainActivity
+    fun searchItems(
+        keyword: String,
+        callback: (MutableList<ItemsModel>) -> Unit
+    ) {
+        database
+            .collection("items")
+            .orderBy("nama")
+            .startAt(keyword)
+            .endAt(keyword + "\uf8ff")
+            .get()
+            .addOnSuccessListener {
+                callback(it.toObjects(ItemsModel::class.java).toMutableList())
+            }
+    }
 }

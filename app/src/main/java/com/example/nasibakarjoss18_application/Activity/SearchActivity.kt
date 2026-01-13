@@ -29,6 +29,9 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
+
+
+
 //        Navigate bottom setting
         binding.bottomNav.setOnItemSelectedListener { item ->
             if (item.itemId == binding.bottomNav.selectedItemId) {
