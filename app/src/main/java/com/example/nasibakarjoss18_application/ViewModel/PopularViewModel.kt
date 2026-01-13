@@ -65,5 +65,27 @@ private val _itemResult = MutableLiveData<List<ItemsModel>>()
     }
 
 //    Get all items
+private val _searchResult = MutableLiveData<MutableList<ItemsModel>>()
+    val searchResult: LiveData<MutableList<ItemsModel>> = _searchResult
+
+    fun searchValue(keyword : String) {
+        if (keyword.isEmpty()) {
+            loadAllItems()
+        } else {
+            loadBySearchItem(keyword)
+        }
+    }
+
+    fun loadAllItems() {
+        repository.getAllItems() {
+            _searchResult.value = it
+        }
+    }
+
+    fun loadBySearchItem(keyword: String) {
+        repository.searchItems(keyword) {
+            _searchResult.value = it
+        }
+    }
 
 }

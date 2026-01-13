@@ -2,16 +2,23 @@ package com.example.nasibakarjoss18_application.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.nasibakarjoss18_application.Adapter.ItemsAdapter
 import com.example.nasibakarjoss18_application.R
+import com.example.nasibakarjoss18_application.ViewModel.PopularViewModel
 import com.example.nasibakarjoss18_application.databinding.ActivitySearchBinding
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding
+    val viewModel = PopularViewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,7 +36,8 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
-
+        initSearchField()
+        initItems()
 
 
 //        Navigate bottom setting
@@ -47,6 +55,41 @@ class SearchActivity : AppCompatActivity() {
             }
             true
         }
+    }
+
+    private fun initSearchField() {
+        binding.searchField.visibility = View.GONE
+
+        binding.glassBtn.setOnClickListener {
+            if (binding.searchField.visibility === 0) {
+                binding.searchField.visibility = View.GONE
+            }else{
+                binding.searchField.visibility = View.VISIBLE
+            }
+        }
+
+    }
+
+//    Inisialisasi item
+    private fun initItems() {
+        val itemsAdapter = ItemsAdapter(mutableListOf())
+        binding.itemsView.adapter = itemsAdapter
+
+        viewModel.loadAllItems()
+
+        binding.searchField.addTextChangedListener {
+            val keyword = it.toString().toLowerCase().trim()
+            viewModel.searchValue(keyword)
+        }
+
+        viewModel.searchResult.observe(this) {
+                list ->
+            binding.itemsView.layoutManager = LinearLayoutManager(this@SearchActivity,
+                LinearLayoutManager.VERTICAL, false
+            )
+            itemsAdapter.updateData(list)
+        }
+
     }
 
     private fun updateBottomNavIcon(activeItemId: Int) {

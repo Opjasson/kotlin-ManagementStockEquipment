@@ -44,15 +44,14 @@ class PopularAdapter :
             }
             ContextCompat.startActivity(context, intent, null)
         }
-        holder.binding.titleTxt.text = item.nama
-        holder.binding.subtitleTxt.text = item.deskripsi
+        holder.binding.titleTxt.text = item.nama.replaceFirstChar { it.uppercase() }
+        holder.binding.subtitleTxt.text = item.deskripsi.replaceFirstChar { it.uppercase() }
 
         Glide.with(context).load(item.imgUrl).into(holder.binding.pic)
     }
 
     override fun getItemCount(): Int = items.size
 
-    // 🔥 INI YANG KAMU BUTUH
     fun setData(newItems: List<ItemsModel>) {
         items.clear()
         items.addAll(newItems)

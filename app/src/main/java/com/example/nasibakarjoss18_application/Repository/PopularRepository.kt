@@ -88,6 +88,7 @@ fun updateItem(
             .endAt(keyword + "\uf8ff")
             .get()
             .addOnSuccessListener {
+                Log.d("Data", "size : ${it.size()}")
                 callback(it.toObjects(ItemsModel::class.java).toMutableList())
             }
     }
