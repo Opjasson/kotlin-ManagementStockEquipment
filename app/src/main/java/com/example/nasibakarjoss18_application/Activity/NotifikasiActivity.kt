@@ -2,11 +2,19 @@ package com.example.nasibakarjoss18_application.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.nasibakarjoss18_application.Adapter.AlatMakanAdapter
+import com.example.nasibakarjoss18_application.Adapter.ItemsAdapter
+import com.example.nasibakarjoss18_application.Adapter.PopularAdapter
 import com.example.nasibakarjoss18_application.R
 import com.example.nasibakarjoss18_application.ViewModel.PopularViewModel
 import com.example.nasibakarjoss18_application.databinding.ActivityNotifikasiBinding
@@ -53,7 +61,31 @@ class NotifikasiActivity : AppCompatActivity() {
     }
 
     fun initAlatMakan() {
-        viewModel.get
+        var adapterAlatMakan: AlatMakanAdapter
+        var viewModelPopular: PopularViewModel
+
+        // 1. INIT VIEWMODEL
+        viewModelPopular = ViewModelProvider(this)[PopularViewModel::class.java]
+
+        // 2. INIT ADAPTER
+        adapterAlatMakan = AlatMakanAdapter()
+
+        // 3. SET RECYCLERVIEW
+        binding.alatMakanView.apply {
+            layoutManager = LinearLayoutManager(this@NotifikasiActivity,
+                LinearLayoutManager.VERTICAL, false
+            )
+            adapter = adapterAlatMakan
+        }
+
+        // 4. OBSERVE DATA
+        viewModelPopular.alatMakanResult.observe(this) { list ->
+            binding.loadAlatMakan.visibility = View.GONE
+            adapterAlatMakan.setData(list)
+        }
+
+        // 5. PANGGIL DATA
+        viewModelPopular.getAlatMakan()
     }
 
     //    bottom Nav Setting

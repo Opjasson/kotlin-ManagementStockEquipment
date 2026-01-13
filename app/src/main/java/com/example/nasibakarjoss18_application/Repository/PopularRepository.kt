@@ -41,7 +41,6 @@ fun getItemByItemId(
 
     //     get item alat makan
     fun getItemAlatMakan(
-        kategoriId: Long,
         callback: (List<ItemsModel>) -> Unit
     ) {
         database.collection("items")
