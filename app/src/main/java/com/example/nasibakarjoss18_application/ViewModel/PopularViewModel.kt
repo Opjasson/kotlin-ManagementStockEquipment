@@ -88,4 +88,14 @@ private val _searchResult = MutableLiveData<MutableList<ItemsModel>>()
         }
     }
 
+//    Get item alat makan
+
+    private val _alatMakanResult = MutableLiveData<List<ItemsModel>>()
+    val alatMakanResult: LiveData<List<ItemsModel>> = _alatMakanResult
+
+    fun loadData(kategoriId : Long) {
+        repository.getItemAlatMakan(kategoriId) {
+            _alatMakanResult.value = it
+        }
+    }
 }

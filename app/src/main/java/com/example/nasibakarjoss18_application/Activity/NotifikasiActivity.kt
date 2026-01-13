@@ -32,6 +32,8 @@ class NotifikasiActivity : AppCompatActivity() {
             insets
         }
 
+        initAlatMakan()
+
         //        Navigate bottom setting
         binding.bottomNav.setOnItemSelectedListener { item ->
             if (item.itemId == binding.bottomNav.selectedItemId) {
@@ -48,6 +50,10 @@ class NotifikasiActivity : AppCompatActivity() {
             }
             true
         }
+    }
+
+    fun initAlatMakan() {
+        viewModel.get
     }
 
     //    bottom Nav Setting
