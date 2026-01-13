@@ -53,6 +53,7 @@ class SearchActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.main -> startActivity(Intent(this, MainActivity::class.java))
                 R.id.search -> startActivity(Intent(this, SearchActivity::class.java))
+                R.id.notif -> startActivity(Intent(this, NotifikasiActivity::class.java))
             }
             true
         }

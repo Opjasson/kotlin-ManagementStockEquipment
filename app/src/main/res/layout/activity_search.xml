@@ -118,42 +118,6 @@
             app:labelVisibilityMode="labeled"
             >
 
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="@drawable/top_corners_white_bg"-->
-            <!--                android:gravity="center"-->
-            <!--                android:orientation="horizontal">-->
-
-            <!--                <ImageView-->
-            <!--                    android:id="@+id/homeBtn"-->
-            <!--                    android:layout_width="38dp"-->
-            <!--                    android:layout_height="38dp"-->
-            <!--                    android:layout_marginEnd="38dp"-->
-            <!--                    android:contentDescription="@+string/home"-->
-            <!--                    app:srcCompat="@drawable/home" />-->
-
-            <!--                <ImageView-->
-            <!--                    android:id="@+id/searchBtn"-->
-            <!--                    android:layout_width="38dp"-->
-            <!--                    android:layout_height="38dp"-->
-            <!--                    android:layout_marginEnd="38dp"-->
-            <!--                    app:srcCompat="@drawable/toggle" />-->
-
-            <!--                <ImageView-->
-            <!--                    android:id="@+id/notifBtn"-->
-            <!--                    android:layout_width="38dp"-->
-            <!--                    android:layout_height="38dp"-->
-            <!--                    android:layout_marginEnd="38dp"-->
-            <!--                    app:srcCompat="@drawable/bell" />-->
-
-            <!--                <ImageView-->
-            <!--                    android:id="@+id/accountBtn"-->
-            <!--                    android:layout_width="38dp"-->
-            <!--                    android:layout_height="38dp"-->
-            <!--                    app:srcCompat="@drawable/usertabs" />-->
-
-            <!--            </LinearLayout>-->
         </com.google.android.material.bottomnavigation.BottomNavigationView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
