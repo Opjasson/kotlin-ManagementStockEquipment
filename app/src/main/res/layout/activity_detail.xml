@@ -12,10 +12,9 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="224dp"
-        android:layout_marginBottom="2dp"
         android:background="@drawable/bottom_corners_greenmedium_bg"
         android:padding="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -59,15 +58,18 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
-        android:layout_width="407dp"
-        android:layout_height="630dp"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        tools:layout_editor_absoluteX="0dp">
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="635dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="664dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -189,6 +191,7 @@
                 android:id="@+id/picItem"
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
+                android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
@@ -196,6 +199,7 @@
                 android:id="@+id/editBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
                 android:background="@drawable/brown_full_corners_bg"
                 android:text="Submit"
                 android:textColor="@color/black_medium"
