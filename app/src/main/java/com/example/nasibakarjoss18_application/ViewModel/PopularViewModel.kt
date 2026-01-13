@@ -45,4 +45,19 @@ private val _itemResult = MutableLiveData<List<ItemsModel>>()
             onError = { Log.d("ERROR", "Internal Error") }
         )
     }
+
+    val updateStatus = MutableLiveData<Boolean>()
+
+    fun updateItem(
+        itemId : String,
+        nama : String,
+        deskripsi : String,
+        jumlahBarang : Long,
+        popular : Boolean,
+        imgUrl : String,
+    ) {
+        repository.updateItem(itemId, nama, deskripsi, jumlahBarang, popular, imgUrl) {
+            updateStatus.value = it
+        }
+    }
 }

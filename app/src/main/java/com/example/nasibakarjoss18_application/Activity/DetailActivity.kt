@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -38,17 +39,21 @@ class DetailActivity : AppCompatActivity() {
         initFormItem()
     }
 
+    var imgUrl : String = ""
     fun initFormItem () {
         val pickImage =
             registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
                 uri?.let {
-                    Log.d("URL", it.toString())
                     Glide.with(applicationContext).load(uri).into(binding.picItem)
-                    binding.editBtn.setOnClickListener {
-                        viewModel.upload(this, uri)
-                    }
+                    viewModel.upload(this, uri)
                 }
             }
+
+        viewModel.imageUrl.observe(this){
+            imgUrl = it.toString()
+        }
+
+        var popular = ""
 
 //        show data config
         viewModel.itemResult.observe(this){
@@ -76,6 +81,27 @@ class DetailActivity : AppCompatActivity() {
                 }
 
 
+
+            editBtn.setOnClickListener {
+                viewModel.updateItem(
+                    data[0].documentId,
+                    nameItemFormTxt.text.toString(),
+                    descEdt.text.toString(),
+                    jumlahBarangForm.text.toString().toLongOrNull() ?: 0,
+                    if (popular == "Populer") true else false,
+                    if (imgUrl.isEmpty()) data[0].imgUrl else imgUrl
+                )
+            }
+
+
+            }
+
+            viewModel.updateStatus.observe(this){
+                success ->
+                if (success) {
+                    Toast.makeText(this, "Update berhasil", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
             }
         }
         viewModel.loadData(intent.getLongExtra("id", 1)!!)
@@ -99,6 +125,7 @@ class DetailActivity : AppCompatActivity() {
 
         binding.dropdownMenu.setOnItemClickListener { _, _, position, _ ->
             val selected = items[position]
+            popular = selected
         }
 
 

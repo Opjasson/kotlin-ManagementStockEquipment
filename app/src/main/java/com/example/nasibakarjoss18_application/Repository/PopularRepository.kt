@@ -29,15 +29,22 @@ fun getItemByItemId(
         .whereEqualTo("itemId", itemId)
         .get()
         .addOnSuccessListener {
-            callback(it.toObjects(ItemsModel::class.java))
+            snapshots ->
+            val list = snapshots.documents.mapNotNull { doc ->
+                doc.toObject(ItemsModel::class.java)?.apply {
+                    documentId = doc.id   // 🔥 isi documentId
+                }
+            }
+            callback(list)
         }
 }
 
 //    Update item
 fun updateItem(
-    itemId : Long,
+    itemId : String,
     nama : String,
     deskripsi : String,
+    jumlahBarang : Long,
     popular : Boolean,
     imgUrl : String,
     onResult: (Boolean) -> Unit
@@ -45,6 +52,7 @@ fun updateItem(
     var data = mapOf(
         "nama" to nama,
         "deskripsi" to deskripsi,
+        "jumlahBarang" to jumlahBarang,
         "popular" to popular,
         "imgUrl" to imgUrl
     )
@@ -52,10 +60,10 @@ fun updateItem(
         .document(itemId)
         .update(data)
         .addOnSuccessListener {
-            onResult(true, null)
+            onResult(true)
         }
         .addOnFailureListener {
-            onResult(false, it.message)
+            onResult(false)
         }
 }
 }
