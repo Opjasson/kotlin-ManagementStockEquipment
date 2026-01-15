@@ -59,11 +59,9 @@ class MainActivity : AppCompatActivity() {
 //        setup user
 
         userViewModel.userLogin.observe(this) { user ->
-            Log.d("DATAUSER", user.toString())
-//            user?.let {
-//                binding.nameTxt.text = it.name
-//                binding.emailTxt.text = it.email
-//            }
+            user?.let {
+                binding.usernameTxt.text = it.username
+            }
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -105,20 +103,13 @@ class MainActivity : AppCompatActivity() {
 
         authViewModel.getUserId().observe(this) { userId ->
             if (userId == "PZ2LOzb4IbTGW2ZqBnrEu7rgxBP2") {
-                binding.admBtn.visibility = View.GONE
-            }else {
                 binding.admBtn.visibility = View.VISIBLE
+            }else {
+                binding.admBtn.visibility = View.GONE
             }
         }
 
         initPopular()
-
-//        Get userId
-//        lifecycleScope.launch {
-//            userPrefence.getUserId().collect{
-//                Log.d("DATASTORE", "userId : ${it}")
-//            }
-//        }
 
     }
 
@@ -166,24 +157,5 @@ class MainActivity : AppCompatActivity() {
                     R.drawable.home
             )
 
-//        // Search
-//        menu.findItem(R.id.search).icon =
-//            ContextCompat.getDrawable(
-//                this,
-//                if (activeItemId == R.id.search)
-//                    R.drawable.ic_search_active
-//                else
-//                    R.drawable.ic_search_inactive
-//            )
-//
-//        // Profile
-//        menu.findItem(R.id.profile).icon =
-//            ContextCompat.getDrawable(
-//                this,
-//                if (activeItemId == R.id.profile)
-//                    R.drawable.ic_profile_active
-//                else
-//                    R.drawable.ic_profile_inactive
-//            )
     }
 }

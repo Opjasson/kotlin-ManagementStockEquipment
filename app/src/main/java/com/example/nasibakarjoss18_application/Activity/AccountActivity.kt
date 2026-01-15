@@ -37,6 +37,7 @@ class AccountActivity : AppCompatActivity() {
         userViewModel.getUserByUid()
 
         userViewModel.userLogin.observe(this) { user ->
+            Log.d("USERlogin", user.toString())
             user?.let {
                 binding.usernameValueTxt.setText(it.username.toString())
                 binding.emailValueTxt.setText(it.email.toString())

@@ -17,6 +17,7 @@ import com.example.nasibakarjoss18_application.Activity.AuthActivity
 import com.example.nasibakarjoss18_application.Activity.MainActivity
 import com.example.nasibakarjoss18_application.R
 import com.example.nasibakarjoss18_application.ViewModel.AuthViewModel
+import com.example.nasibakarjoss18_application.ViewModel.UserViewModel
 import com.example.nasibakarjoss18_application.databinding.FragmentSignInBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -43,7 +44,7 @@ class SignInFragment : Fragment() {
 
         val viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         super.onViewCreated(view, savedInstanceState)
-
+        val userViewModel = UserViewModel()
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
