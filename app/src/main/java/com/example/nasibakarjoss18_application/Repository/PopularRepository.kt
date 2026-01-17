@@ -133,6 +133,32 @@ fun updateItem(
         }
 }
 
+    //    Add item
+    fun createItem(
+        nama : String,
+        deskripsi : String,
+        jumlahBarang : Long,
+        popular : Boolean,
+        imgUrl : String,
+        onResult: (Boolean) -> Unit
+    ){
+        var data = mapOf(
+            "nama" to nama,
+            "deskripsi" to deskripsi,
+            "jumlahBarang" to jumlahBarang,
+            "popular" to popular,
+            "imgUrl" to imgUrl
+        )
+        database.collection("items")
+            .add(data)
+            .addOnSuccessListener {
+                onResult(true)
+            }
+            .addOnFailureListener {
+                onResult(false)
+            }
+    }
+
     //    Get all items MainActivity
     fun getAllItems(callback: (MutableList<ItemsModel>) -> Unit) {
         database.collection("items")
