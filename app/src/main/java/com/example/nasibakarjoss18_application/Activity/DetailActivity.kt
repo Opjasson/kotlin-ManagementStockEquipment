@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.example.nasibakarjoss18_application.Fragment.BarangMasukBottomSheet
 import com.example.nasibakarjoss18_application.R
 import com.example.nasibakarjoss18_application.ViewModel.PopularViewModel
 import com.example.nasibakarjoss18_application.databinding.ActivityDetailBinding
@@ -34,6 +35,11 @@ class DetailActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        binding.tambahStockBtn.setOnClickListener {
+            val bottomSheet = BarangMasukBottomSheet()
+            bottomSheet.show(supportFragmentManager, "BarangMasuk")
         }
 
         initFormItem()

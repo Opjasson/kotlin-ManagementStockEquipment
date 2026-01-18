@@ -48,8 +48,6 @@ class AdminActivity : AppCompatActivity() {
             insets
         }
 
-
-
         initFormItem()
         initTable()
 

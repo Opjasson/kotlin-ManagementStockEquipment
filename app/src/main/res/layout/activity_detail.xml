@@ -77,6 +77,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
+            <Button
+                android:id="@+id/tambahStockBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+ Stok" />
+
             <EditText
                 android:id="@+id/nameItemFormTxt"
                 android:layout_width="match_parent"

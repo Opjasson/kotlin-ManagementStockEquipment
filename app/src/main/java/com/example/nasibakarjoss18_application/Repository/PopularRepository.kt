@@ -156,7 +156,6 @@ class PopularRepository {
     fun createItem(
         nama: String,
         deskripsi: String,
-        jumlahBarang: Long,
         popular: Boolean,
         imgUrl: String,
         kategoriId: Long,
@@ -165,7 +164,7 @@ class PopularRepository {
         var data = mapOf(
             "nama" to nama,
             "deskripsi" to deskripsi,
-            "jumlahBarang" to jumlahBarang,
+            "jumlahBarang" to 0,
             "popular" to popular,
             "imgUrl" to imgUrl,
             "kategoriId" to kategoriId,

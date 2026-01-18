@@ -78,7 +78,7 @@ val createStatus = MutableLiveData<Boolean>()
         imgUrl : String,
         kategoriId : Long
     ) {
-        repository.createItem(nama, deskripsi, jumlahBarang, popular, imgUrl, kategoriId) {
+        repository.createItem(nama, deskripsi, popular, imgUrl, kategoriId) {
             createStatus.value = it
         }
     }
