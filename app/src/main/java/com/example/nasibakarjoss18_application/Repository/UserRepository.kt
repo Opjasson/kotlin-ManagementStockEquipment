@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.nasibakarjoss18_application.Domain.UsersModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import okhttp3.Callback
 
 class UserRepository {
     val database = FirebaseFirestore.getInstance()
@@ -25,4 +26,5 @@ class UserRepository {
                 onResult(null)
             }
     }
+
 }

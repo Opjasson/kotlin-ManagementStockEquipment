@@ -19,4 +19,5 @@ fun getUserByUid () {
         _userLoggin.value = result
     }
 }
+
 }

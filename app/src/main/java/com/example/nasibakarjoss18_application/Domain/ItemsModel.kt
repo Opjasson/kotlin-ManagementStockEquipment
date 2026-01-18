@@ -1,5 +1,6 @@
 package com.example.nasibakarjoss18_application.Domain
 
+import com.google.firebase.Timestamp
 import java.io.Serializable
 
 data class ItemsModel(
@@ -11,4 +12,6 @@ data class ItemsModel(
     var imgUrl : String = "",
     var popular : Boolean = false,
     var jumlahBarang : Long = 0,
+
+    var createdAt : Timestamp? = null
 ) : Serializable

@@ -3,6 +3,7 @@ package com.example.nasibakarjoss18_application.Repository
 import android.util.Log
 import com.example.nasibakarjoss18_application.Domain.ItemsModel
 import com.google.android.gms.common.api.internal.StatusCallback
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 
 class PopularRepository {
@@ -56,12 +57,15 @@ class PopularRepository {
             .whereEqualTo("kategoriId", 2)
             .get()
             .addOnSuccessListener {
-                val filtered = it.toObjects(ItemsModel::class.java)
-                    .filter { item ->
-                        item.jumlahBarang <= 3
+                    snapshots ->
+                val list = snapshots.documents.mapNotNull { doc ->
+                    doc.toObject(ItemsModel::class.java)?.apply {
+                        documentId = doc.id   // 🔥 isi documentId
                     }
-
-                callback(filtered)
+                }.filter { item ->
+                    item.jumlahBarang <= 3
+                }
+                callback(list)
             }
     }
 
@@ -87,13 +91,15 @@ class PopularRepository {
             .whereEqualTo("kategoriId", 0)
             .get()
             .addOnSuccessListener {
-                Log.d("alatMakan", "data : ${it.size()}")
-                val filtered = it.toObjects(ItemsModel::class.java)
-                    .filter { item ->
-                        item.jumlahBarang <= 3
+                    snapshots ->
+                val list = snapshots.documents.mapNotNull { doc ->
+                    doc.toObject(ItemsModel::class.java)?.apply {
+                        documentId = doc.id   // 🔥 isi documentId
                     }
-
-                callback(filtered)
+                }.filter { item ->
+                    item.jumlahBarang <= 3
+                }
+                callback(list)
             }
     }
 
@@ -105,12 +111,15 @@ class PopularRepository {
             .whereEqualTo("kategoriId", 1)
             .get()
             .addOnSuccessListener {
-                val filtered = it.toObjects(ItemsModel::class.java)
-                    .filter { item ->
-                        item.jumlahBarang <= 3
+                snapshots ->
+                val list = snapshots.documents.mapNotNull { doc ->
+                    doc.toObject(ItemsModel::class.java)?.apply {
+                        documentId = doc.id   // 🔥 isi documentId
                     }
-
-                callback(filtered)
+                }.filter { item ->
+                    item.jumlahBarang <= 3
+                }
+                callback(list)
             }
     }
 
@@ -159,7 +168,8 @@ class PopularRepository {
             "jumlahBarang" to jumlahBarang,
             "popular" to popular,
             "imgUrl" to imgUrl,
-            "kategoriId" to kategoriId
+            "kategoriId" to kategoriId,
+            "createdAt" to Timestamp.now()
         )
         database.collection("items")
             .add(data)

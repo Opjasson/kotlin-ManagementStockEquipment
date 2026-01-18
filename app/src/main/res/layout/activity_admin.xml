@@ -238,9 +238,59 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cetakBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/brown_full_corners_bg"
+                android:text="Cetak"
+                android:textColor="@color/black_medium"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal"
+                >
+
+                <TableLayout
+                    android:id="@+id/tableHarga"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#BDBDBD"
+                    android:stretchColumns="*">
+
+                    <!-- Header -->
+                    <TableRow
+                        android:background="#0B5ED7"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="No"
+                            android:textColor="@android:color/white"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:padding="8dp"
+                            android:text="Description"
+                            android:textColor="@android:color/white"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:gravity="end"
+                            android:padding="8dp"
+                            android:text="Price"
+                            android:textColor="@android:color/white"
+                            android:textStyle="bold" />
+                    </TableRow>
+
+                </TableLayout>
+            </HorizontalScrollView>
+
 
 
         </LinearLayout>
