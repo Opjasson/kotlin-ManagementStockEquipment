@@ -22,14 +22,14 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/etJumlah"
+            android:id="@+id/etJumlahKeluar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Jumlah"
             android:inputType="number" />
 
         <Button
-            android:id="@+id/btnSimpan"
+            android:id="@+id/btnSimpanBrgKeluar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"

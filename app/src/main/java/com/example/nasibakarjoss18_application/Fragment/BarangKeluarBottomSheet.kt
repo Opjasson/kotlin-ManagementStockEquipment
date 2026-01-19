@@ -44,30 +44,28 @@ class BarangKeluarBottomSheet(private var barangId : String
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(
-            R.layout.bottomsheet_barang_masuk,
+            R.layout.bottomsheet_barang_keluar,
             container,
             false
         )
-        val etJumlah = view.findViewById<EditText>(R.id.etJumlah)
-        val btnSimpan = view.findViewById<Button>(R.id.btnSimpan)
+        val etJumlah = view.findViewById<EditText>(R.id.etJumlahKeluar)
+        val btnSimpan = view.findViewById<Button>(R.id.btnSimpanBrgKeluar)
 //
 
         viewModel.itemResult.observe(this){
                 data ->
-            Log.d("DATAKU", data.toString())
-//
             btnSimpan.setOnClickListener {
                 val jumlah = etJumlah.text.toString().toLong()
                 viewModel.updateItem(
                     barangId,
                     data.nama.toString(),
                     data.deskripsi.toString(),
-                    data.jumlahBarang.toLong() + jumlah,
+                    data.jumlahBarang.toLong() - jumlah,
                     data.popular,
                     data.imgUrl.toString()
                 )
                 viewModel.addBarangItem(barangId,jumlah)
-                Toast.makeText(requireContext(), "Stock ditambahkan", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Stock dikurangi", Toast.LENGTH_SHORT).show()
                 dismiss()
             }
 
