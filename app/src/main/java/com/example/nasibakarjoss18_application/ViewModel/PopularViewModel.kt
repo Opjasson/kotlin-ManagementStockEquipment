@@ -97,6 +97,19 @@ val createStatus = MutableLiveData<Boolean>()
     }
 
 
+    //    Add barang_keluar
+    val addBarangKeluarStatus = MutableLiveData<Boolean>()
+
+    fun addBarangKeluarItem(
+        barangId : String,
+        barang_keluar : Long,
+    ) {
+        repository.minStockItem(barangId, barang_keluar) {
+            addBarangKeluarStatus.value = it
+        }
+    }
+
+
 
 //    Get all items
 private val _searchResult = MutableLiveData<List<ItemsModel>>()

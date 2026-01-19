@@ -64,7 +64,7 @@ class BarangKeluarBottomSheet(private var barangId : String
                     data.popular,
                     data.imgUrl.toString()
                 )
-                viewModel.addBarangItem(barangId,jumlah)
+                viewModel.addBarangKeluarItem(barangId,jumlah)
                 Toast.makeText(requireContext(), "Stock dikurangi", Toast.LENGTH_SHORT).show()
                 dismiss()
             }

@@ -206,6 +206,27 @@ class PopularRepository {
             }
     }
 
+    //    Kurang stok barang
+    fun minStockItem(
+        barangId: String,
+        barang_keluar: Long,
+        onResult: (Boolean) -> Unit
+    ) {
+        var data = mapOf(
+            "barangId" to barangId,
+            "barang_keluar" to barang_keluar,
+            "createdAt" to Timestamp.now()
+        )
+        database.collection("barang_keluar")
+            .add(data)
+            .addOnSuccessListener {
+                onResult(true)
+            }
+            .addOnFailureListener {
+                onResult(false)
+            }
+    }
+
     //    Get all items MainActivity
     fun getAllItems(callback: (List<ItemsModel>) -> Unit) {
         database.collection("items")

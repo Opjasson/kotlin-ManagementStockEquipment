@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.example.nasibakarjoss18_application.Fragment.BarangKeluarBottomSheet
 import com.example.nasibakarjoss18_application.Fragment.BarangMasukBottomSheet
 import com.example.nasibakarjoss18_application.R
 import com.example.nasibakarjoss18_application.ViewModel.PopularViewModel
@@ -41,6 +42,12 @@ class DetailActivity : AppCompatActivity() {
         binding.tambahStockBtn.setOnClickListener {
             val bottomSheet = BarangMasukBottomSheet(intent.getStringExtra("id")!!)
             bottomSheet.show(supportFragmentManager, "BarangMasuk")
+        }
+
+        //        Handle button add barang keluar
+        binding.kurangStockBtn.setOnClickListener {
+            val bottomSheet = BarangKeluarBottomSheet(intent.getStringExtra("id")!!)
+            bottomSheet.show(supportFragmentManager, "BarangKeluar")
         }
 
         initFormItem()
