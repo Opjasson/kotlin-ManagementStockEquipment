@@ -6,9 +6,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.nasibakarjoss18_application.Domain.BarangMasukModel
 import com.example.nasibakarjoss18_application.Domain.ItemsModel
 import com.example.nasibakarjoss18_application.Repository.CloudinaryRepository
 import com.example.nasibakarjoss18_application.Repository.PopularRepository
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 
 class PopularViewModel : ViewModel() {
@@ -111,6 +113,7 @@ val createStatus = MutableLiveData<Boolean>()
 
 
 
+
 //    Get all items
 private val _searchResult = MutableLiveData<List<ItemsModel>>()
     val searchResult: LiveData<List<ItemsModel>> = _searchResult
@@ -135,16 +138,6 @@ private val _searchResult = MutableLiveData<List<ItemsModel>>()
         }
     }
 
-//    Get item alat makan <= 3
-
-    private val _alatMakanResult = MutableLiveData<List<ItemsModel>>()
-    val alatMakanResult: LiveData<List<ItemsModel>> = _alatMakanResult
-
-    fun getAlatMakan() {
-        repository.getItemAlatMakan() {
-            _alatMakanResult.value = it
-        }
-    }
 
     //    Get item alat makan all
 
@@ -180,8 +173,29 @@ private val _searchResult = MutableLiveData<List<ItemsModel>>()
         }
     }
 
-    //    Create new item
+//    Get item alat makan <= 3
 
+    private val _alatMakanResult = MutableLiveData<List<ItemsModel>>()
+    val alatMakanResult: LiveData<List<ItemsModel>> = _alatMakanResult
+
+    fun getAlatMakan() {
+        repository.getItemAlatMakan() {
+            _alatMakanResult.value = it
+        }
+    }
+
+    //    Get barang_masuk
+
+//    private val _barangMasukResult = MutableLiveData<List<BarangMasukModel>>()
+//    val barangMasukResult: LiveData<List<BarangMasukModel>> = _barangMasukResult
+//
+//    fun getBarangMasuk(
+//        tanggal: Timestamp,
+//    ) {
+//        repository.getBarangMasuk(tanggal) {
+//            _barangMasukResult.value = it
+//        }
+//    }
 
 
 }

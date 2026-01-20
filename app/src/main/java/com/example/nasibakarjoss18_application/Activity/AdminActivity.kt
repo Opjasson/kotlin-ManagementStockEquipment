@@ -30,8 +30,13 @@ import com.example.nasibakarjoss18_application.R
 import com.example.nasibakarjoss18_application.ViewModel.PopularViewModel
 import com.example.nasibakarjoss18_application.ViewModel.UserViewModel
 import com.example.nasibakarjoss18_application.databinding.ActivityAdminBinding
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.textfield.TextInputEditText
 import java.io.File
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class AdminActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdminBinding
@@ -51,6 +56,12 @@ class AdminActivity : AppCompatActivity() {
 
         initFormItem()
         initTable()
+
+        val etDateRange = binding.etDateRange
+
+        etDateRange.setOnClickListener {
+            showDateRangePicker(etDateRange)
+        }
 
     }
 
@@ -169,6 +180,28 @@ class AdminActivity : AppCompatActivity() {
 
         binding.backBtn.setOnClickListener {
             finish()
+        }
+    }
+
+    private fun showDateRangePicker(editText: TextInputEditText) {
+
+        val picker = MaterialDatePicker.Builder.dateRangePicker()
+            .setTitleText("Pilih Rentang Tanggal")
+            .build()
+
+        picker.show(supportFragmentManager, "DATE_RANGE_PICKER")
+
+        picker.addOnPositiveButtonClickListener { selection ->
+            val startDate = selection.first
+            val endDate = selection.second
+
+            val formatter = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
+
+            val start = formatter.format(Date(startDate))
+            val end = formatter.format(Date(endDate))
+
+            editText.setText("$start  -  $end")
+            Log.d("DATE", "start : ${start} - ${end}")
         }
     }
 

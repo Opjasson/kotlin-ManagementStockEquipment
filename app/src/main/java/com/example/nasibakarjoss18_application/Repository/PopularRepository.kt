@@ -1,13 +1,17 @@
 package com.example.nasibakarjoss18_application.Repository
 
 import android.util.Log
+import com.example.nasibakarjoss18_application.Domain.BarangMasukModel
 import com.example.nasibakarjoss18_application.Domain.ItemsModel
+import com.example.nasibakarjoss18_application.Helper.ConvertDateTime
 import com.google.android.gms.common.api.internal.StatusCallback
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 
+
 class PopularRepository {
     private val database = FirebaseFirestore.getInstance()
+    private val convertDate = ConvertDateTime()
 
     //    get item based on popular
     fun getPopularItem(
@@ -129,22 +133,15 @@ class PopularRepository {
     }
 
     //     get barang masuk
-//    fun getItemAlatCuci(
-//        callback: (List<ItemsModel>) -> Unit
+//    fun getBarangMasuk(
+//        tanggal: Timestamp,
+//        callback: (List<BarangMasukModel>) -> Unit
 //    ) {
-//        database.collection("items")
-//            .whereEqualTo("kategoriId", 1)
+//        database.collection("barang_masuk")
+//            .whereEqualTo("createdAt", tanggal)
 //            .get()
 //            .addOnSuccessListener {
-//                    snapshots ->
-//                val list = snapshots.documents.mapNotNull { doc ->
-//                    doc.toObject(ItemsModel::class.java)?.apply {
-//                        documentId = doc.id   // 🔥 isi documentId
-//                    }
-//                }.filter { item ->
-//                    item.jumlahBarang <= 3
-//                }
-//                callback(list)
+//                callback(it)
 //            }
 //    }
 
@@ -211,10 +208,11 @@ class PopularRepository {
         barang_masuk: Long,
         onResult: (Boolean) -> Unit
     ) {
+        val dateCreatedAt = convertDate.formatTimestamp(Timestamp.now())
         var data = mapOf(
             "barangId" to barangId,
             "barang_masuk" to barang_masuk,
-            "createdAt" to Timestamp.now()
+            "createdAt" to dateCreatedAt
         )
         database.collection("barang_masuk")
             .add(data)
