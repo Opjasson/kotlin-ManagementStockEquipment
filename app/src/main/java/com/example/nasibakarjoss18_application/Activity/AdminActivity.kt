@@ -2,10 +2,13 @@ package com.example.nasibakarjoss18_application.Activity
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import android.os.Bundle
+import android.text.TextPaint
+import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -221,16 +224,20 @@ class AdminActivity : AppCompatActivity() {
                 binding.cetakBtn.setOnClickListener {
                     generatePdf(this, list)
                 }
-                for (item in list) {
+                list.forEachIndexed { index, item ->
                     val row = TableRow(this)
                     row.setBackgroundColor(Color.WHITE)
 
-                    row.addView(createCell(item.barangId.toString(), Gravity.CENTER))
+                    row.addView(createCell((index + 1).toString(), Gravity.CENTER))
+                    row.addView(createCell(item.barang_masuk.toString(), Gravity.CENTER))
                     row.addView(createCell(item.barang_masuk.toString(), Gravity.START))
-                    row.addView(createCell(item.createdAt.toString(), Gravity.END))
+                    row.addView(createCell(item.barang_masuk.toString(), Gravity.START))
+                    row.addView(createCell(item.barang_masuk.toString(), Gravity.START))
+                    row.addView(createCell(item.barang_masuk.toString(), Gravity.START))
 
                     table.addView(row)
                 }
+
             }
 
         }
@@ -247,55 +254,133 @@ class AdminActivity : AppCompatActivity() {
     }
 
     fun generatePdf(context: Context, data: List<BarangMasukModel>) {
-        val pdfDocument = PdfDocument()
-        val paint = Paint()
-        val titlePaint = Paint()
 
-        val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create() // A4
-        val page = pdfDocument.startPage(pageInfo)
-        val canvas = page.canvas
+        val pdfDocument = PdfDocument()
+
+        val textPaint = TextPaint().apply {
+            textSize = 12f
+            isAntiAlias = true
+        }
+
+        val titlePaint = Paint().apply {
+            textSize = 16f
+            isFakeBoldText = true
+            isAntiAlias = true
+        }
+
+        val linePaint = Paint().apply {
+            style = Paint.Style.STROKE
+            strokeWidth = 1f
+        }
+
+        // Ukuran A4 (pt)
+        val pageWidth = 595
+        val pageHeight = 842
+
+        // Layout table
+        val startX = 30f
+        val startY = 100f
+        val rowHeight = 28f
+        val bottomMargin = 800f
+
+        // Kolom X
+        val colNo = startX
+        val colNama = startX + 40
+        val colAwal = startX + 180
+        val colMasuk = startX + 270
+        val colKeluar = startX + 360
+        val colAkhir = startX + 450
+
+        fun drawTextSafe(
+            canvas: Canvas,
+            text: String,
+            x: Float,
+            y: Float,
+            maxWidth: Float
+        ) {
+            val safeText = TextUtils.ellipsize(
+                text,
+                textPaint,
+                maxWidth,
+                TextUtils.TruncateAt.END
+            ).toString()
+
+            canvas.drawText(safeText, x, y, textPaint)
+        }
+
+        fun drawHeader(canvas: Canvas, y: Float) {
+            drawTextSafe(canvas, "No", colNo, y, 30f)
+            drawTextSafe(canvas, "Nama", colNama, y, 120f)
+            drawTextSafe(canvas, "Jumlah Awal", colAwal, y, 70f)
+            drawTextSafe(canvas, "Masuk", colMasuk, y, 70f)
+            drawTextSafe(canvas, "Keluar", colKeluar, y, 70f)
+            drawTextSafe(canvas, "Akhir", colAkhir, y, 70f)
+
+            canvas.drawLine(20f, y + 5f, pageWidth - 20f, y + 5f, linePaint)
+        }
+
+        var pageNumber = 1
+        var pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create()
+        var page = pdfDocument.startPage(pageInfo)
+        var canvas = page.canvas
 
         // Judul
-        titlePaint.textSize = 16f
-        titlePaint.isFakeBoldText = true
-        canvas.drawText("Laporan Data User", 40f, 50f, titlePaint)
+        canvas.drawText("Laporan Data Barang Masuk", 40f, 50f, titlePaint)
 
-        paint.textSize = 12f
+        var y = startY
+        drawHeader(canvas, y)
+        y += rowHeight
 
-        // Header tabel
-        var y = 100f
-        canvas.drawText("No", 40f, y, paint)
-        canvas.drawText("Nama", 200f, y, paint)
-        canvas.drawText("Harga", 450f, y, paint)
+        data.forEachIndexed { index, item ->
 
-        y += 20f
+            // ➡️ Pindah halaman
+            if (y > bottomMargin) {
+                pdfDocument.finishPage(page)
 
-        // Isi tabel
-        for (user in data) {
-            canvas.drawText(user.barangId.toString(), 40f, y, paint)
-            canvas.drawText(user.barang_masuk.toString(), 200f, y, paint)
-            canvas.drawText(user.createdAt.toString(), 450f, y, paint)
-            y += 20f
+                pageNumber++
+                pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create()
+                page = pdfDocument.startPage(pageInfo)
+                canvas = page.canvas
+
+                canvas.drawText("Laporan Data Barang Masuk", 40f, 50f, titlePaint)
+
+                y = startY
+                drawHeader(canvas, y)
+                y += rowHeight
+            }
+
+            drawTextSafe(canvas, (index + 1).toString(), colNo, y, 30f)
+            drawTextSafe(canvas, item.barang_masuk.toString(), colNama, y, 120f)
+            drawTextSafe(canvas, item.barang_masuk.toString(), colAwal, y, 70f)
+            drawTextSafe(canvas, item.barang_masuk.toString(), colMasuk, y, 70f)
+            drawTextSafe(canvas, item.barang_masuk.toString(), colKeluar, y, 70f)
+            drawTextSafe(canvas, item.barang_masuk.toString(), colAkhir, y, 70f)
+
+            y += rowHeight
         }
 
         pdfDocument.finishPage(page)
 
         // Simpan file
-        val file = File(context.getExternalFilesDir(null), "laporan_user.pdf")
+        val file = File(context.getExternalFilesDir(null), "laporan_barang_masuk.pdf")
         pdfDocument.writeTo(FileOutputStream(file))
         pdfDocument.close()
 
         Toast.makeText(context, "PDF berhasil dibuat", Toast.LENGTH_SHORT).show()
 
+        // Buka PDF
         val uri = FileProvider.getUriForFile(
-            this,
-            "${packageName}.provider",
+            context,
+            "${context.packageName}.provider",
             file
         )
 
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.setDataAndType(uri, "application/pdf")
-        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        startActivity(intent)
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(uri, "application/pdf")
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
+
+        context.startActivity(intent)
     }
+
 }
