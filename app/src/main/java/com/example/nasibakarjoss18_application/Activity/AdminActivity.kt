@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.nasibakarjoss18_application.Adapter.PopularAdapter
+import com.example.nasibakarjoss18_application.Domain.BarangMasukModel
 import com.example.nasibakarjoss18_application.Domain.HargaBBM
 import com.example.nasibakarjoss18_application.Domain.ItemsModel
 import com.example.nasibakarjoss18_application.R
@@ -32,6 +33,7 @@ import com.example.nasibakarjoss18_application.ViewModel.UserViewModel
 import com.example.nasibakarjoss18_application.databinding.ActivityAdminBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.Timestamp
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -55,7 +57,6 @@ class AdminActivity : AppCompatActivity() {
         }
 
         initFormItem()
-        initTable()
 
         val etDateRange = binding.etDateRange
 
@@ -202,34 +203,39 @@ class AdminActivity : AppCompatActivity() {
 
             editText.setText("$start  -  $end")
             Log.d("DATE", "start : ${start} - ${end}")
+
+
+            val table = binding.tableHarga
+
+            viewModel.getBarangMasuk(start, end)
+
+            viewModel.barangMasukResult.observe(this) {
+                list ->
+                // 1️⃣ HAPUS SEMUA ROW DATA (kecuali header)
+                val childCount = table.childCount
+                if (childCount > 1) {
+                    table.removeViews(1, childCount - 1)
+                }
+                Log.d("LISTBARANGMASUK", list.toString())
+
+                binding.cetakBtn.setOnClickListener {
+                    generatePdf(this, list)
+                }
+                for (item in list) {
+                    val row = TableRow(this)
+                    row.setBackgroundColor(Color.WHITE)
+
+                    row.addView(createCell(item.barangId.toString(), Gravity.CENTER))
+                    row.addView(createCell(item.barang_masuk.toString(), Gravity.START))
+                    row.addView(createCell(item.createdAt.toString(), Gravity.END))
+
+                    table.addView(row)
+                }
+            }
+
         }
     }
 
-    fun initTable () {
-        val table = binding.tableHarga
-
-
-
-        viewModel.loadAllItems()
-
-        viewModel.searchResult.observe(this){
-            list ->
-            binding.cetakBtn.setOnClickListener {
-                generatePdf(this, list)
-            }
-            for (item in list) {
-                val row = TableRow(this)
-                row.setBackgroundColor(Color.WHITE)
-
-                row.addView(createCell(item.nama.toString(), Gravity.CENTER))
-                row.addView(createCell(item.jumlahBarang.toString(), Gravity.START))
-                row.addView(createCell(item.jumlahBarang.toString(), Gravity.END))
-
-                table.addView(row)
-            }
-        }
-
-    }
 
     private fun createCell(text: String, gravity: Int): TextView {
         return TextView(this).apply {
@@ -240,7 +246,7 @@ class AdminActivity : AppCompatActivity() {
         }
     }
 
-    fun generatePdf(context: Context, data: List<ItemsModel>) {
+    fun generatePdf(context: Context, data: List<BarangMasukModel>) {
         val pdfDocument = PdfDocument()
         val paint = Paint()
         val titlePaint = Paint()
@@ -266,9 +272,9 @@ class AdminActivity : AppCompatActivity() {
 
         // Isi tabel
         for (user in data) {
-            canvas.drawText(user.nama.toString(), 40f, y, paint)
-            canvas.drawText(user.jumlahBarang.toString(), 200f, y, paint)
-            canvas.drawText(user.jumlahBarang.toString(), 450f, y, paint)
+            canvas.drawText(user.barangId.toString(), 40f, y, paint)
+            canvas.drawText(user.barang_masuk.toString(), 200f, y, paint)
+            canvas.drawText(user.createdAt.toString(), 450f, y, paint)
             y += 20f
         }
 

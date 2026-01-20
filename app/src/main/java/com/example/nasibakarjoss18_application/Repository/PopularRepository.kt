@@ -132,18 +132,21 @@ class PopularRepository {
             }
     }
 
-    //     get barang masuk
-//    fun getBarangMasuk(
-//        tanggal: Timestamp,
-//        callback: (List<BarangMasukModel>) -> Unit
-//    ) {
-//        database.collection("barang_masuk")
-//            .whereEqualTo("createdAt", tanggal)
-//            .get()
-//            .addOnSuccessListener {
-//                callback(it)
-//            }
-//    }
+//         get barang masuk
+    fun getBarangMasuk(
+        tanggal1: String,
+        tanggal2: String,
+        callback: (List<BarangMasukModel>) -> Unit
+    ) {
+        database.collection("barang_masuk")
+            .whereGreaterThanOrEqualTo("createdAt", tanggal1)
+            .whereLessThanOrEqualTo("createdAt", tanggal2)
+            .orderBy("createdAt")
+            .get()
+            .addOnSuccessListener {
+                callback(it.toObjects(BarangMasukModel::class.java))
+            }
+    }
 
     //    Update item
     fun updateItem(

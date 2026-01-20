@@ -186,16 +186,17 @@ private val _searchResult = MutableLiveData<List<ItemsModel>>()
 
     //    Get barang_masuk
 
-//    private val _barangMasukResult = MutableLiveData<List<BarangMasukModel>>()
-//    val barangMasukResult: LiveData<List<BarangMasukModel>> = _barangMasukResult
-//
-//    fun getBarangMasuk(
-//        tanggal: Timestamp,
-//    ) {
-//        repository.getBarangMasuk(tanggal) {
-//            _barangMasukResult.value = it
-//        }
-//    }
+    private val _barangMasukResult = MutableLiveData<List<BarangMasukModel>>()
+    val barangMasukResult: LiveData<List<BarangMasukModel>> = _barangMasukResult
+
+    fun getBarangMasuk(
+        tanggal1: String,
+        tanggal2: String,
+    ) {
+        repository.getBarangMasuk(tanggal1, tanggal2) {
+            _barangMasukResult.value = it
+        }
+    }
 
 
 }
