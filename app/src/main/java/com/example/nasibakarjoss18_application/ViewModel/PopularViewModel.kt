@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.nasibakarjoss18_application.Domain.BarangKeluarModel
 import com.example.nasibakarjoss18_application.Domain.BarangMasukModel
 import com.example.nasibakarjoss18_application.Domain.ItemsModel
 import com.example.nasibakarjoss18_application.Repository.CloudinaryRepository
@@ -197,6 +198,22 @@ private val _searchResult = MutableLiveData<List<ItemsModel>>()
             _barangMasukResult.value = it
         }
     }
+
+    //    Get barang_keluar
+
+    private val _barangKeluarResult = MutableLiveData<List<BarangKeluarModel>>()
+    val barangKeluarResult: LiveData<List<BarangKeluarModel>> = _barangKeluarResult
+
+    fun getBarangKeluar(
+        tanggal1: String,
+        tanggal2: String,
+    ) {
+        repository.getBarangKeluar(tanggal1, tanggal2) {
+            _barangKeluarResult.value = it
+        }
+    }
+
+
 
 
 }

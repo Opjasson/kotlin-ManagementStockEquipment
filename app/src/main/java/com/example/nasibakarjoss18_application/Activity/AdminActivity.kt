@@ -28,10 +28,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.nasibakarjoss18_application.Adapter.PopularAdapter
 import com.example.nasibakarjoss18_application.Domain.BarangMasukModel
+import com.example.nasibakarjoss18_application.Domain.BarangRekapModel
 import com.example.nasibakarjoss18_application.Domain.HargaBBM
 import com.example.nasibakarjoss18_application.Domain.ItemsModel
 import com.example.nasibakarjoss18_application.R
 import com.example.nasibakarjoss18_application.ViewModel.PopularViewModel
+import com.example.nasibakarjoss18_application.ViewModel.RekapDataViewModel
 import com.example.nasibakarjoss18_application.ViewModel.UserViewModel
 import com.example.nasibakarjoss18_application.databinding.ActivityAdminBinding
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -46,6 +48,7 @@ import java.util.Locale
 class AdminActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdminBinding
     val viewModel = PopularViewModel()
+    val viewModelRekap = RekapDataViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -210,10 +213,12 @@ class AdminActivity : AppCompatActivity() {
 
             val table = binding.tableHarga
 
-            viewModel.getBarangMasuk(start, end)
+            viewModelRekap.loadData(start, end)
 
-            viewModel.barangMasukResult.observe(this) {
+            viewModelRekap.rekapResult.observe(this) {
                 list ->
+                Log.d("DATANEW", list.toString())
+
                 // 1️⃣ HAPUS SEMUA ROW DATA (kecuali header)
                 val childCount = table.childCount
                 if (childCount > 1) {
@@ -224,21 +229,23 @@ class AdminActivity : AppCompatActivity() {
                 binding.cetakBtn.setOnClickListener {
                     generatePdf(this, list)
                 }
+
+
                 list.forEachIndexed { index, item ->
                     val row = TableRow(this)
                     row.setBackgroundColor(Color.WHITE)
 
                     row.addView(createCell((index + 1).toString(), Gravity.CENTER))
-                    row.addView(createCell(item.barang_masuk.toString(), Gravity.CENTER))
-                    row.addView(createCell(item.barang_masuk.toString(), Gravity.START))
-                    row.addView(createCell(item.barang_masuk.toString(), Gravity.START))
-                    row.addView(createCell(item.barang_masuk.toString(), Gravity.START))
-                    row.addView(createCell(item.barang_masuk.toString(), Gravity.START))
+                    row.addView(createCell(item.namaBarang.toString(), Gravity.CENTER))
+                    row.addView(createCell(item.totalMasuk.toString(), Gravity.START))
+                    row.addView(createCell(item.totalMasuk.toString(), Gravity.START))
+                    row.addView(createCell(item.totalKeluar.toString(), Gravity.START))
+                    row.addView(createCell(item.totalKeluar.toString(), Gravity.START))
 
                     table.addView(row)
                 }
-
             }
+
 
         }
     }
@@ -253,7 +260,7 @@ class AdminActivity : AppCompatActivity() {
         }
     }
 
-    fun generatePdf(context: Context, data: List<BarangMasukModel>) {
+    fun generatePdf(context: Context, data: List<BarangRekapModel>) {
 
         val pdfDocument = PdfDocument()
 
@@ -350,11 +357,11 @@ class AdminActivity : AppCompatActivity() {
             }
 
             drawTextSafe(canvas, (index + 1).toString(), colNo, y, 30f)
-            drawTextSafe(canvas, item.barang_masuk.toString(), colNama, y, 120f)
-            drawTextSafe(canvas, item.barang_masuk.toString(), colAwal, y, 70f)
-            drawTextSafe(canvas, item.barang_masuk.toString(), colMasuk, y, 70f)
-            drawTextSafe(canvas, item.barang_masuk.toString(), colKeluar, y, 70f)
-            drawTextSafe(canvas, item.barang_masuk.toString(), colAkhir, y, 70f)
+            drawTextSafe(canvas, item.namaBarang.toString(), colNama, y, 120f)
+            drawTextSafe(canvas, item.totalMasuk.toString(), colAwal, y, 70f)
+            drawTextSafe(canvas, item.totalMasuk.toString(), colMasuk, y, 70f)
+            drawTextSafe(canvas, item.totalKeluar.toString(), colKeluar, y, 70f)
+            drawTextSafe(canvas, item.totalKeluar.toString(), colAkhir, y, 70f)
 
             y += rowHeight
         }

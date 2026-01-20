@@ -250,10 +250,11 @@ class PopularRepository {
         barang_keluar: Long,
         onResult: (Boolean) -> Unit
     ) {
+        val dateCreatedAt = convertDate.formatTimestamp(Timestamp.now())
         var data = mapOf(
             "barangId" to barangId,
             "barang_keluar" to barang_keluar,
-            "createdAt" to Timestamp.now()
+            "createdAt" to dateCreatedAt
         )
         database.collection("barang_keluar")
             .add(data)
