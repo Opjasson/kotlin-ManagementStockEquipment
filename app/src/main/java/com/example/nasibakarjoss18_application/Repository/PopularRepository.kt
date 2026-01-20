@@ -1,6 +1,7 @@
 package com.example.nasibakarjoss18_application.Repository
 
 import android.util.Log
+import com.example.nasibakarjoss18_application.Domain.BarangKeluarModel
 import com.example.nasibakarjoss18_application.Domain.BarangMasukModel
 import com.example.nasibakarjoss18_application.Domain.ItemsModel
 import com.example.nasibakarjoss18_application.Helper.ConvertDateTime
@@ -145,6 +146,22 @@ class PopularRepository {
             .get()
             .addOnSuccessListener {
                 callback(it.toObjects(BarangMasukModel::class.java))
+            }
+    }
+
+    //         get barang keluar
+    fun getBarangKeluar(
+        tanggal1: String,
+        tanggal2: String,
+        callback: (List<BarangKeluarModel>) -> Unit
+    ) {
+        database.collection("barang_keluar")
+            .whereGreaterThanOrEqualTo("createdAt", tanggal1)
+            .whereLessThanOrEqualTo("createdAt", tanggal2)
+            .orderBy("createdAt")
+            .get()
+            .addOnSuccessListener {
+                callback(it.toObjects(BarangKeluarModel::class.java))
             }
     }
 
