@@ -208,8 +208,6 @@ class AdminActivity : AppCompatActivity() {
             val end = formatter.format(Date(endDate))
 
             editText.setText("$start  -  $end")
-            Log.d("DATE", "start : ${start} - ${end}")
-
 
             val table = binding.tableHarga
 
@@ -217,7 +215,6 @@ class AdminActivity : AppCompatActivity() {
 
             viewModelRekap.rekapResult.observe(this) {
                 list ->
-                Log.d("DATANEW", list.toString())
 
                 // 1️⃣ HAPUS SEMUA ROW DATA (kecuali header)
                 val childCount = table.childCount
@@ -237,10 +234,10 @@ class AdminActivity : AppCompatActivity() {
 
                     row.addView(createCell((index + 1).toString(), Gravity.CENTER))
                     row.addView(createCell(item.namaBarang.toString(), Gravity.CENTER))
-                    row.addView(createCell(item.totalMasuk.toString(), Gravity.START))
+                    row.addView(createCell(item.stokAwal.toString(), Gravity.START))
                     row.addView(createCell(item.totalMasuk.toString(), Gravity.START))
                     row.addView(createCell(item.totalKeluar.toString(), Gravity.START))
-                    row.addView(createCell(item.totalKeluar.toString(), Gravity.START))
+                    row.addView(createCell((item.stokAwal + item.totalMasuk - item.totalKeluar).toString(), Gravity.START))
 
                     table.addView(row)
                 }
@@ -358,10 +355,10 @@ class AdminActivity : AppCompatActivity() {
 
             drawTextSafe(canvas, (index + 1).toString(), colNo, y, 30f)
             drawTextSafe(canvas, item.namaBarang.toString(), colNama, y, 120f)
-            drawTextSafe(canvas, item.totalMasuk.toString(), colAwal, y, 70f)
+            drawTextSafe(canvas, item.stokAwal.toString(), colAwal, y, 70f)
             drawTextSafe(canvas, item.totalMasuk.toString(), colMasuk, y, 70f)
             drawTextSafe(canvas, item.totalKeluar.toString(), colKeluar, y, 70f)
-            drawTextSafe(canvas, item.totalKeluar.toString(), colAkhir, y, 70f)
+            drawTextSafe(canvas, (item.stokAwal + item.totalMasuk - item.totalKeluar).toString(), colAkhir, y, 70f)
 
             y += rowHeight
         }
