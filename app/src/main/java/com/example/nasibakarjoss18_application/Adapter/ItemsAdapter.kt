@@ -33,6 +33,7 @@ class ItemsAdapter(val items: MutableList<ItemsModel>):
 
         holder.binding.apply {
             titleTxt.text = item.nama.replaceFirstChar { it.uppercase() }
+            jumlahtxtCard.text = item.jumlahBarang.toString() + "X"
             subtitleTxt.text = item.deskripsi.replaceFirstChar { it.uppercase() }
             Glide.with(context).load(item.imgUrl).into(pic)
         }
