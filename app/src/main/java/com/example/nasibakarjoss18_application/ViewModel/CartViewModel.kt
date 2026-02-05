@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nasibakarjoss18_application.Domain.CartCustomModel
+import com.example.nasibakarjoss18_application.Domain.CartModel
 import com.example.nasibakarjoss18_application.Repository.CartRepository
 import com.example.nasibakarjoss18_application.Repository.ProductRepository
 import kotlinx.coroutines.launch

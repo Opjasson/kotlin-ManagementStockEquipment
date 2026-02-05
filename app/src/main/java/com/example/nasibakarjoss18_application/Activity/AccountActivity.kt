@@ -65,7 +65,7 @@ class AccountActivity : AppCompatActivity() {
 
         }
 
-        binding.goToKasir.setOnClickListener {
+        binding.goToKasirBtn.setOnClickListener {
             startActivity(Intent(this, CashierActivity::class.java))
         }
 
