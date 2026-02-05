@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.CashierActivity">
+    tools:context=".Activity.ManageProductActivity">
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawerLayout"
@@ -22,7 +22,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="Halaman Kasir" />
+                app:title="Produk Manajemen" />
 
             <FrameLayout
                 android:id="@+id/container"
@@ -38,65 +38,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <!-- HEADER -->
-
-                        <!-- SEARCH -->
-
-                        <!-- CATEGORIES -->
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Daftar Menu Restaurant"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-
-                        <EditText
-                            android:id="@+id/editTextText"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:layout_marginTop="18dp"
-                            android:layout_marginBottom="12dp"
-                            android:background="@drawable/white_full_corners_bg_form"
-                            android:drawableStart="@drawable/toggle"
-                            android:drawablePadding="8dp"
-                            android:hint="Search"
-                            android:inputType="text"
-                            android:paddingStart="8dp"
-                            android:textColor="@color/black_medium" />
-
-                        <!-- NEW TRANSAKSI -->
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/goToKasir"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:background="@drawable/full_corners_green_medium_bg"
-                            android:text="Tambah"
-                            android:textColor="@color/black_medium"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-
-                        <!-- MENU RECYCLER -->
-
-                        <!-- SPECIAL OFFER -->
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
 
                         <ProgressBar
-                            android:id="@+id/loadOffer"
+                            android:id="@+id/MP_loadProduct"
                             style="?android:attr/progressBarStyle"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp" />
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rvMenu"
+                            android:id="@+id/MPproductView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="-18dp"
                             android:nestedScrollingEnabled="false"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <Button
+                            android:id="@+id/tambahProductBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:backgroundTint="@color/primary_color"
+                            android:text="Masukan Product Baru"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            app:iconTint="@android:color/white" />
 
                     </LinearLayout>
                 </androidx.core.widget.NestedScrollView>
@@ -112,4 +82,5 @@
             app:headerLayout="@layout/drawer_header"
             app:menu="@menu/drawer_menu" />
     </androidx.drawerlayout.widget.DrawerLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

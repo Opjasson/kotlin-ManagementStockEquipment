@@ -2,29 +2,40 @@ package com.example.nasibakarjoss18_application.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.nasibakarjoss18_application.Adapter.ProductAdapter
 import com.example.nasibakarjoss18_application.R
-import com.example.nasibakarjoss18_application.databinding.ActivityCashierBinding
+import com.example.nasibakarjoss18_application.ViewModel.ProductViewModel
+import com.example.nasibakarjoss18_application.databinding.ActivityManageProductBinding
 
-class CashierActivity : AppCompatActivity() {
+
+class ManageProductActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityManageProductBinding
+    private val viewModel = ProductViewModel()
+
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var binding : ActivityCashierBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityCashierBinding.inflate(layoutInflater)
+        binding = ActivityManageProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
         initSideBar()
+        initManageProduct()
     }
 
     private fun initSideBar () {
@@ -49,7 +60,7 @@ class CashierActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_home -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, CashierActivity::class.java))
                 }
                 R.id.menu_manageProduct -> {
                     startActivity(Intent(this, ManageProductActivity::class.java))
@@ -67,5 +78,21 @@ class CashierActivity : AppCompatActivity() {
             drawerLayout.closeDrawers()
             true
         }
+    }
+
+    private fun initManageProduct () {
+        binding.tambahProductBtn.setOnClickListener {
+            startActivity(Intent(this, TambahProductActivity::class.java))
+        }
+
+        binding.MPLoadProduct.visibility= View.VISIBLE
+        viewModel.searchResult.observe(this) {
+                list ->
+            binding.MPproductView.layoutManager= GridLayoutManager(this, 2)
+            binding.MPproductView.adapter= ProductAdapter(list.toMutableList())
+            binding.MPLoadProduct.visibility= View.GONE
+        }
+
+        viewModel.loadAllItems()
     }
 }
