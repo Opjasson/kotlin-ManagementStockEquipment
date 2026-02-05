@@ -6,5 +6,108 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.CashierActivity">
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <!-- KONTEN UTAMA -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="Halaman Kasir" />
+
+            <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <!-- HEADER -->
+
+                        <!-- SEARCH -->
+
+                        <!-- CATEGORIES -->
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Daftar Menu Restaurant"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/editTextText"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:layout_marginTop="18dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/white_full_corners_bg_form"
+                            android:drawableStart="@drawable/toggle"
+                            android:drawablePadding="8dp"
+                            android:hint="Search"
+                            android:inputType="text"
+                            android:paddingStart="8dp"
+                            android:textColor="@color/black_medium" />
+
+                        <!-- NEW TRANSAKSI -->
+                        <Button
+                            android:id="@+id/transaksiBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="16dp"
+                            android:backgroundTint="#1E40FF"
+                            android:text="New Transaksi"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            app:iconTint="@android:color/white" />
+
+                        <!-- MENU RECYCLER -->
+
+                        <!-- SPECIAL OFFER -->
+
+                        <ProgressBar
+                            android:id="@+id/loadOffer"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-18dp"
+                            android:nestedScrollingEnabled="false"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    </LinearLayout>
+                </androidx.core.widget.NestedScrollView>
+            </FrameLayout>
+        </LinearLayout>
+
+        <!-- SIDEBAR -->
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigationView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/drawer_header"
+            app:menu="@menu/drawer_menu" />
+    </androidx.drawerlayout.widget.DrawerLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
