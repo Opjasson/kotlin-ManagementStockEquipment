@@ -69,12 +69,12 @@
 
                         <!-- NEW TRANSAKSI -->
                         <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/goToKasir"
+                            android:id="@+id/transaksiBtn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:background="@drawable/full_corners_green_medium_bg"
-                            android:text="Tambah"
+                            android:text="Buat"
                             android:textColor="@color/black_medium"
                             android:textSize="18sp"
                             android:textStyle="bold" />
