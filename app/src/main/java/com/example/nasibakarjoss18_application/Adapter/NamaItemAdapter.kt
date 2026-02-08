@@ -1,6 +1,7 @@
 package com.example.nasibakarjoss18_application.Adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +22,7 @@ class NamaItemAdapter(val items: MutableList<HistoryProductModel>):
     }
 
     override fun onBindViewHolder(holder: NamaItemAdapter.Viewholder, position: Int) {
+        Log.d("DATAHOSTORY", items[position].nama.toString())
         holder.binding.itemName.text = items[position].nama
     }
     override fun getItemCount(): Int =items.size

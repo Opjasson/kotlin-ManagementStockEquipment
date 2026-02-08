@@ -142,6 +142,7 @@ class CartActivity : AppCompatActivity() {
                 Log.d("DATACARTACTI", data.toString())
                 var totalHarga = data.sumOf {
                         item ->
+                    Log.d("ITEMCART", item.harga.toString())
                     item.harga * item.jumlah
                 }
 

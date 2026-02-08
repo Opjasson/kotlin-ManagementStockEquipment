@@ -36,9 +36,6 @@ class CardHistoryAdapter(val items: MutableList<TransaksiWithCartModel>):
             layoutManager = LinearLayoutManager(context)
             adapter = NamaItemAdapter(items[position].cartItems.toMutableList())
         }
-
-
-
         holder.binding.historyView.setOnClickListener {
             val intent = Intent(context, NotaTransaksiActivity::class.java)
             intent.putExtra("object", items[position])
