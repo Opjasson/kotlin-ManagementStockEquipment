@@ -30,13 +30,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="8dp">
 
                 <TextView
                     android:id="@+id/searchTitleTxt"
-                    android:layout_width="280dp"
+                    android:layout_width="216dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
                     android:fontFamily="monospace"
                     android:text="Cari peralatan anda disini..."
                     android:textColor="@color/black"

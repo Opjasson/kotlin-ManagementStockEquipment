@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 
 //        Setting menu only admin
         authViewModel.getUserId().observe(this) { userId ->
-            if (userId == "PZ2LOzb4IbTGW2ZqBnrEu7rgxBP2") {
+            if (userId == "l8yNkmjGwEPrmQAnCfK1vn0hENe2") {
                 binding.admBtn.visibility = View.VISIBLE
             }else {
                 binding.admBtn.visibility = View.GONE

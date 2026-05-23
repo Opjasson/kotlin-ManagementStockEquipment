@@ -3,6 +3,7 @@ package com.example.nasibakarjoss18_application.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -39,6 +40,9 @@ class AccountActivity : AppCompatActivity() {
         userViewModel.userLogin.observe(this) { user ->
             Log.d("USERlogin", user.toString())
             user?.let {
+                if (it.role != "kasir") {
+                    binding.goToKasirBtn.visibility = View.GONE
+                }
                 binding.usernameValueTxt.setText(it.username.toString())
                 binding.emailValueTxt.setText(it.email.toString())
                 binding.roleValueTxt.setText(it.role.toString())
