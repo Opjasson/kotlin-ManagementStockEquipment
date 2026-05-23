@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nasibakarjoss18_application.Adapter.CardHistoryAdapter
 import com.example.nasibakarjoss18_application.DataStore.UserPreference
 import com.example.nasibakarjoss18_application.R
+import com.example.nasibakarjoss18_application.ViewModel.AuthViewModel
 import com.example.nasibakarjoss18_application.ViewModel.TransaksiViewModel
 import com.example.nasibakarjoss18_application.ViewModel.UserViewModel
 import com.example.nasibakarjoss18_application.databinding.ActivityHistoryPesananBinding
@@ -30,6 +31,7 @@ class HistoryPesananActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
 
     private lateinit var userPreference: UserPreference
+    private lateinit var authViewModel: AuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +76,6 @@ class HistoryPesananActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         drawerLayout = binding.drawerLayout
-
         val navigationView = binding.navigationView
 
         val toggle = ActionBarDrawerToggle(
@@ -102,12 +103,28 @@ class HistoryPesananActivity : AppCompatActivity() {
                 R.id.menu_history -> {
                     startActivity(Intent(this, HistoryPesananActivity::class.java))
                 }
-//                R.id.menu_laporan -> {
-//                    startActivity(Intent(this, LaporanTransactionActivity::class.java))
-//                }
+                R.id.menu_laporan -> {
+                    startActivity(Intent(this, LaporanPenjualanActivity::class.java))
+                }
+                R.id.menu_logout -> {
+                    performLogout()
+                }
             }
             drawerLayout.closeDrawers()
             true
+        }
+    }
+
+    private fun performLogout() {
+        lifecycleScope.launch {
+            authViewModel.logout()
+            userPreference.deleteUserId()
+
+            val intent = Intent(this@HistoryPesananActivity, AuthActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            startActivity(intent)
+            finish()
         }
     }
 

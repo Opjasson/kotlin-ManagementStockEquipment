@@ -152,6 +152,9 @@ class CashierActivity : AppCompatActivity() {
                 R.id.menu_history -> {
                     startActivity(Intent(this, HistoryPesananActivity::class.java))
                 }
+                R.id.menu_laporan -> {
+                    startActivity(Intent(this, LaporanPenjualanActivity::class.java))
+                }
                 R.id.menu_logout -> {
                     performLogout()
                 }

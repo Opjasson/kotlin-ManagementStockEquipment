@@ -10,17 +10,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.nasibakarjoss18_application.Adapter.ProductAdapter
+import com.example.nasibakarjoss18_application.DataStore.UserPreference
 import com.example.nasibakarjoss18_application.R
+import com.example.nasibakarjoss18_application.ViewModel.AuthViewModel
 import com.example.nasibakarjoss18_application.ViewModel.ProductViewModel
 import com.example.nasibakarjoss18_application.databinding.ActivityManageProductBinding
+import kotlinx.coroutines.launch
 
 
 class ManageProductActivity : AppCompatActivity() {
     private lateinit var binding: ActivityManageProductBinding
     private val viewModel = ProductViewModel()
-
+    private lateinit var userPreference: UserPreference
+    private lateinit var authViewModel: AuthViewModel
     private lateinit var drawerLayout: DrawerLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +48,6 @@ class ManageProductActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         drawerLayout = binding.drawerLayout
-
         val navigationView = binding.navigationView
 
         val toggle = ActionBarDrawerToggle(
@@ -68,15 +72,31 @@ class ManageProductActivity : AppCompatActivity() {
                 R.id.menu_cart -> {
                     startActivity(Intent(this, CartActivity::class.java))
                 }
-//                R.id.menu_history -> {
-//                    startActivity(Intent(this, HistoryTransaksiActivity::class.java))
-//                }
-//                R.id.menu_laporan -> {
-//                    startActivity(Intent(this, LaporanTransactionActivity::class.java))
-//                }
+                R.id.menu_history -> {
+                    startActivity(Intent(this, HistoryPesananActivity::class.java))
+                }
+                R.id.menu_laporan -> {
+                    startActivity(Intent(this, LaporanPenjualanActivity::class.java))
+                }
+                R.id.menu_logout -> {
+                    performLogout()
+                }
             }
             drawerLayout.closeDrawers()
             true
+        }
+    }
+
+    private fun performLogout() {
+        lifecycleScope.launch {
+            authViewModel.logout()
+            userPreference.deleteUserId()
+
+            val intent = Intent(this@ManageProductActivity, AuthActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            startActivity(intent)
+            finish()
         }
     }
 
