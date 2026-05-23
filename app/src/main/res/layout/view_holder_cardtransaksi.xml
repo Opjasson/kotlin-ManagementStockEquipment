@@ -24,10 +24,6 @@
             android:textColor="@color/black"
             android:textSize="12sp" />
 
-        <!-- Status -->
-
-        <!-- Garis Merah -->
-
         <!-- Konten -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,8 +66,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <!-- Total -->
+            <!-- Bukti Transfer -->
+            <LinearLayout
+                android:id="@+id/layoutBuktiTf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:visibility="gone">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bukti Transfer :"
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/ivBuktiTf"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="4dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/white_full_corners_bg"
+                    android:padding="2dp" />
+            </LinearLayout>
+
+            <!-- Total -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

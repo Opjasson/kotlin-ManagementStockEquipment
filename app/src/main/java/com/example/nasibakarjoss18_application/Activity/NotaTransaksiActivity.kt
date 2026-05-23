@@ -1,12 +1,11 @@
 package com.example.nasibakarjoss18_application.Activity
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfDocument
 import android.os.Bundle
-import android.widget.TextView
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -16,17 +15,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.drawToBitmap
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nasibakarjoss18_application.Adapter.ListItemNotaAdapter
 import com.example.nasibakarjoss18_application.DataStore.UserPreference
 import com.example.nasibakarjoss18_application.Domain.TransaksiWithCartModel
-import com.example.nasibakarjoss18_application.Helper.HandlePrint
 import com.example.nasibakarjoss18_application.R
-import com.example.nasibakarjoss18_application.ViewModel.UserViewModel
 import com.example.nasibakarjoss18_application.databinding.ActivityNotaTransaksiBinding
-import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 
@@ -34,10 +28,6 @@ class NotaTransaksiActivity : AppCompatActivity() {
     private lateinit var binding : ActivityNotaTransaksiBinding
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var userPreference: UserPreference
-
-    private val userViewModel = UserViewModel()
-
-    private val handlePrint = HandlePrint()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,119 +43,85 @@ class NotaTransaksiActivity : AppCompatActivity() {
             insets
         }
 
+        // Get data from intent
+        val data = intent.getSerializableExtra("object") as? TransaksiWithCartModel
 
-//        Get data from adapter history
+        if (data != null) {
+            val totalHarga = data.transaksi.totalHarga
+            val nominalBayar = data.transaksi.nominalBayar
+            val kembalian = nominalBayar - totalHarga
 
-        val data = intent.getSerializableExtra("object")
-                as? TransaksiWithCartModel
+            // Set Data Pelanggan & Tanggal
+            binding.notaPelanggan.text = "Nama: ${data.cartItems[0].username}"
+            binding.tvTanggalNota.text = data.transaksi.createdAt
 
-        binding.notaPelanggan.text = data!!.cartItems[0].username.toString()
-        binding.tvTanggalNota.text = data!!.transaksi.createdAt.toString()
-        binding.tvTotalHarga.text = data!!.transaksi.totalHarga.toString()
+            // Set Rincian Harga
+            binding.tvTotalHarga.text = "Rp $totalHarga"
+            binding.tvNominalTunai.text = "Rp $nominalBayar"
+            binding.tvKembalian.text = "Rp ${if (kembalian > 0) kembalian else 0}"
 
-        binding.rvNotaItem.layoutManager= LinearLayoutManager(this,
-            LinearLayoutManager.VERTICAL, false)
-        binding.rvNotaItem.adapter= ListItemNotaAdapter(data!!.cartItems.toMutableList())
+            // Status Pembayaran Transfer
+            if (!data.transaksi.buktiTransfer.isNullOrEmpty()) {
+                binding.tvStatusBayar.visibility = View.VISIBLE
+                binding.tvStatusBayar.text = "Pembayaran Transfer"
+            } else {
+                binding.tvStatusBayar.visibility = View.GONE
+            }
 
+            // Setup RecyclerView Items
+            binding.rvNotaItem.layoutManager = LinearLayoutManager(this)
+            binding.rvNotaItem.adapter = ListItemNotaAdapter(data.cartItems.toMutableList())
+        }
 
         binding.cetakNotaBtn.setOnClickListener {
-
             val bitmap = binding.layoutNota.drawToBitmap()
-
             val pdfFile = createTempPdf(this, bitmap)
-
             previewPdf(this, pdfFile)
-
-            Toast.makeText(
-                this,
-                "PDF tersimpan: ${pdfFile.absolutePath}",
-                Toast.LENGTH_LONG
-            ).show()
+            Toast.makeText(this, "PDF siap dicetak", Toast.LENGTH_SHORT).show()
         }
 
         initSideBar()
     }
 
-    fun previewPdf(context: Context, file: File) {
-        val uri = FileProvider.getUriForFile(
-            context,
-            "${context.packageName}.provider",
-            file
-        )
-
+    private fun previewPdf(context: Context, file: File) {
+        val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
         val intent = Intent(Intent.ACTION_VIEW).apply {
             setDataAndType(uri, "application/pdf")
             flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         }
-
         context.startActivity(intent)
     }
 
-    fun createTempPdf(
-        context: Context,
-        bitmap: Bitmap
-    ): File {
+    private fun createTempPdf(context: Context, bitmap: Bitmap): File {
         val pdfDocument = PdfDocument()
-
-        val pageInfo = PdfDocument.PageInfo.Builder(
-            bitmap.width,
-            bitmap.height,
-            1
-        ).create()
-
+        val pageInfo = PdfDocument.PageInfo.Builder(bitmap.width, bitmap.height, 1).create()
         val page = pdfDocument.startPage(pageInfo)
         page.canvas.drawBitmap(bitmap, 0f, 0f, null)
         pdfDocument.finishPage(page)
-
         val file = File(context.cacheDir, "preview_nota.pdf")
-
         pdfDocument.writeTo(FileOutputStream(file))
         pdfDocument.close()
-
         return file
     }
 
-    private fun initSideBar () {
+    private fun initSideBar() {
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
-
         drawerLayout = binding.drawerLayout
-
         val navigationView = binding.navigationView
-
-        val toggle = ActionBarDrawerToggle(
-            this,
-            drawerLayout,
-            toolbar,
-            R.string.open,
-            R.string.close
-        )
-
+        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.menu_home -> {
-                    startActivity(Intent(this, CashierActivity::class.java))
-                }
-                R.id.menu_manageProduct -> {
-                    startActivity(Intent(this, ManageProductActivity::class.java))
-                }
-                R.id.menu_cart -> {
-                    startActivity(Intent(this, CartActivity::class.java))
-                }
-                R.id.menu_history -> {
-                    startActivity(Intent(this, HistoryPesananActivity::class.java))
-                }
-//                R.id.menu_laporan -> {
-//                    startActivity(Intent(this, LaporanTransactionActivity::class.java))
-//                }
-
+                R.id.menu_home -> startActivity(Intent(this, CashierActivity::class.java))
+                R.id.menu_manageProduct -> startActivity(Intent(this, ManageProductActivity::class.java))
+                R.id.menu_cart -> startActivity(Intent(this, CartActivity::class.java))
+                R.id.menu_history -> startActivity(Intent(this, HistoryPesananActivity::class.java))
             }
             drawerLayout.closeDrawers()
             true
         }
     }
-
 }

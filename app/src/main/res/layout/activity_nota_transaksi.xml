@@ -179,6 +179,66 @@
                                     android:textStyle="bold" />
                             </LinearLayout>
 
+                            <!-- TUNAI -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:text="TUNAI"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvNominalTunai"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="50.000"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <!-- KEMBALIAN -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:text="KEMBALIAN"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvKembalian"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="0"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <!-- STATUS PEMBAYARAN TRANSFER -->
+                            <TextView
+                                android:id="@+id/tvStatusBayar"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:gravity="center"
+                                android:text="Pembayaran Transfer"
+                                android:textSize="12sp"
+                                android:textStyle="italic"
+                                android:visibility="gone" />
+
                             <!-- FOOTER -->
                             <TextView
                                 android:layout_width="match_parent"
