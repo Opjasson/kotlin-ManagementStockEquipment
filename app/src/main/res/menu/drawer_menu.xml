@@ -19,13 +19,8 @@
             android:title="Manage Product"
           />
 
-<!--        <item-->
-<!--            android:id="@+id/menu_laporan"-->
-<!--            android:title="Report" />-->
-
-        <!--        <item-->
-        <!--            android:id="@+id/menu_manageUser"-->
-        <!--            android:title="Manage User"-->
-        <!--            android:icon="@drawable/profile"/>-->
+        <item
+            android:id="@+id/menu_logout"
+            android:title="Logout" />
     </group>
 </menu>

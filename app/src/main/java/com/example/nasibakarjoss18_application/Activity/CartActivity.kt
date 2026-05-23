@@ -1,6 +1,5 @@
 package com.example.nasibakarjoss18_application.Activity
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,8 +11,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -28,22 +27,18 @@ import com.example.nasibakarjoss18_application.ViewModel.UserViewModel
 import com.example.nasibakarjoss18_application.databinding.ActivityCartBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlin.collections.get
-import kotlin.toString
 
 class CartActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCartBinding
     private val viewModel = CartViewModel()
-
     private val viewModelTransaksi = TransaksiViewModel()
     private val userViewModel = UserViewModel()
-
     private val viewModelImg = ProductViewModel()
     private lateinit var drawerLayout: DrawerLayout
-
     private val prefRepo = TransaksiPreference(this)
-
     private lateinit var userPreference: UserPreference
+
+    private var imgUrlProof: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,12 +57,11 @@ class CartActivity : AppCompatActivity() {
         initHandleBuy()
         initSideBar()
     }
-    private fun initSideBar () {
+
+    private fun initSideBar() {
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
-
         drawerLayout = binding.drawerLayout
-
         val navigationView = binding.navigationView
 
         val toggle = ActionBarDrawerToggle(
@@ -77,133 +71,112 @@ class CartActivity : AppCompatActivity() {
             R.string.open,
             R.string.close
         )
-
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.menu_home -> {
-                    startActivity(Intent(this, CashierActivity::class.java))
-                }
-                R.id.menu_manageProduct -> {
-                    startActivity(Intent(this, ManageProductActivity::class.java))
-                }
-                R.id.menu_cart -> {
-                    startActivity(Intent(this, CartActivity::class.java))
-                }
-                R.id.menu_history -> {
-                    startActivity(Intent(this, HistoryPesananActivity::class.java))
-                }
-//                R.id.menu_laporan -> {
-//                    startActivity(Intent(this, LaporanTransactionActivity::class.java))
-//                }
+                R.id.menu_home -> startActivity(Intent(this, CashierActivity::class.java))
+                R.id.menu_manageProduct -> startActivity(Intent(this, ManageProductActivity::class.java))
+                R.id.menu_cart -> startActivity(Intent(this, CartActivity::class.java))
+                R.id.menu_history -> startActivity(Intent(this, HistoryPesananActivity::class.java))
             }
             drawerLayout.closeDrawers()
             true
         }
     }
 
-    private fun initHandleBuy () {
-//        binding.picTf.visibility = View.GONE
+    private fun initHandleBuy() {
+        // Image Picker for Proof of Transfer
 
-        var imgUrl : String = ""
+        binding.buktiTfImg.visibility = View.GONE
 
-//        val pickImage =
-//            registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-//                uri?.let {
-//                    Glide.with(applicationContext).load(uri).into(binding.picTf)
-//                    viewModelImg.upload(this, uri)
-//                }
-//            }
-//
-//        viewModelImg.imageUrl.observe(this){
-//            imgUrl = it.toString()
-//        }
-//
-//        binding.btnUpload.setOnClickListener {
-//            binding.picTf.visibility = View.VISIBLE
-//            pickImage.launch("image/*")
-//        }
+        val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                binding.buktiTfImg.visibility = View.VISIBLE
+                Glide.with(applicationContext).load(uri).into(binding.buktiTfImg)
+                viewModelImg.upload(this, uri)
+            }
+        }
 
-//        get Cart by transaksi
+        viewModelImg.imageUrl.observe(this) {
+            imgUrlProof = it.toString()
+            Toast.makeText(this, "Bukti transfer berhasil diunggah", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.buktiTfBtn.setOnClickListener {
+            pickImage.launch("image/*")
+        }
+
         lifecycleScope.launch {
             val transId = prefRepo.getTransactionId().first()
             viewModel.getCartByTransaksiId(transId.toString())
         }
 
-        binding.loadCart.visibility= View.VISIBLE
-        viewModel.cartResult.observe(this) {
-                list ->
+        binding.loadCart.visibility = View.VISIBLE
+        viewModel.cartResult.observe(this) { list ->
+            if (list.isEmpty()) {
+                binding.loadCart.visibility = View.GONE
+                return@observe
+            }
+            
             viewModel.loadCartCustom(list)
 
-            viewModel.transaksiUI.observe(this) {
-                    data ->
-                Log.d("DATACARTACTI", data.toString())
-                var totalHarga = data.sumOf {
-                        item ->
-                    Log.d("ITEMCART", item.harga.toString())
-                    item.harga * item.jumlah
+            viewModel.transaksiUI.observe(this) { data ->
+                val totalHarga = data.sumOf { it.harga * it.jumlah }
+                binding.tvTotal.text = "Rp $totalHarga"
+
+                binding.etNominalBayar.addTextChangedListener { s ->
+                    val input = s.toString().toLongOrNull() ?: 0L
+                    val kembalian = input - totalHarga
+                    if (kembalian >= 0) {
+                        binding.tvKembalian.text = "Rp $kembalian"
+                    } else {
+                        binding.tvKembalian.text = "Rp 0"
+                    }
                 }
 
                 binding.btnBuy.setOnClickListener {
+                    val nominalBayar = binding.etNominalBayar.text.toString().toLongOrNull() ?: 0L
+                    
+                    if (nominalBayar < totalHarga) {
+                        Toast.makeText(this, "Nominal bayar tidak mencukupi!", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+
+                    // For transfer payment, ensure image is uploaded
+                    // If nominal is exactly total or user wants to save proof
+                    // Here we save both
                     viewModelTransaksi.updateTransaksi(
                         list[0].transaksiId,
                         totalHarga.toLong(),
-                        "",
-                        ""
+                        nominalBayar,
+                        "", // catatanTambahan (bisa dikosongkan)
+                        imgUrlProof
                     )
 
-                    viewModelTransaksi.updateStatus.observe(this) {
-                            success ->
+                    viewModelTransaksi.updateStatus.observe(this) { success ->
                         if (success) {
-                            Toast.makeText(this, "Pesanan Sedang Diproses", Toast.LENGTH_SHORT).show()
-                            finish()
+                            Toast.makeText(this, "Pesanan Berhasil Dibayar", Toast.LENGTH_SHORT).show()
+                            lifecycleScope.launch {
+                                prefRepo.clearTransactionId()
+                                finish()
+                            }
                         }
                     }
-
-                    lifecycleScope.launch {
-                        prefRepo.clearTransactionId()
-                    }
-
-
                 }
 
-
-
-
-                binding.tvTotal.text = "Rp $totalHarga"
-
-                binding.rvCart.layoutManager= LinearLayoutManager(this,
-                    LinearLayoutManager.VERTICAL, false)
-                binding.rvCart.adapter= CardProductListCartAdapter(
-                    onKurangClick = {
-                            cart ->
-                        if (cart.jumlah > 1) {
-                            viewModel.minusQtyCart(cart.cartId)
-                        }
-
+                binding.rvCart.layoutManager = LinearLayoutManager(this)
+                binding.rvCart.adapter = CardProductListCartAdapter(
+                    onKurangClick = { cart ->
+                        if (cart.jumlah > 1) viewModel.minusQtyCart(cart.cartId)
                     },
-                    onPlusClick = {
-                            cart ->
+                    onPlusClick = { cart ->
                         viewModel.addQtyCart(cart.cartId)
                     },
                     data.toMutableList(),
                 )
-//                ---------------
-                CardProductListCartAdapter(
-                    onKurangClick = {
-                            cart ->
-                        if (cart.jumlah > 1) {
-                            viewModel.minusQtyCart(cart.cartId)
-                        }
-                    },
-                    onPlusClick = {
-                            cart ->
-                        viewModel.addQtyCart(cart.cartId)
-                    },
-                    data.toMutableList()).submitList(data)
-                binding.loadCart.visibility= View.GONE
+                binding.loadCart.visibility = View.GONE
             }
         }
     }

@@ -16,8 +16,6 @@ import kotlinx.coroutines.launch
 class TransaksiViewModel : ViewModel() {
     private val repository = TransaksiRepository()
     private val repositoryUser = UserRepository()
-//    private var prefRepo = TransaksiPreference
-
 
     //    Create item
     val createStatus = MutableLiveData<String>()
@@ -48,10 +46,11 @@ class TransaksiViewModel : ViewModel() {
     fun updateTransaksi(
         transaksiId: String,
         totalHarga: Long,
+        nominalBayar: Long,
         catatanTambahan: String,
         buktiTransfer: String,
     ) {
-        repository.updateTransaksi(transaksiId, totalHarga, catatanTambahan, buktiTransfer) {
+        repository.updateTransaksi(transaksiId, totalHarga, nominalBayar, catatanTambahan, buktiTransfer) {
             updateStatus.value = it
         }
     }

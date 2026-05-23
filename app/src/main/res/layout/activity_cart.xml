@@ -58,38 +58,171 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
 
-                        <!-- Note -->
-
                         <!-- Total -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="12dp">
+                            <TextView
+                                android:id="@+id/tvTotalLabel"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Total Harga"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvTotal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rp 0"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <!-- Form Nominal Bayar -->
                         <TextView
-                            android:id="@+id/tvTotalLabel"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="Nominal Bayar"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/etNominalBayar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@android:drawable/edit_text"
+                            android:hint="Contoh: 50000"
+                            android:inputType="number"
+                            android:padding="12dp" />
+
+                        <!-- Kembalian -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:text="Total Harga"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent" />
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/tvTotal"
-                            android:layout_width="wrap_content"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Kembalian: "
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvKembalian"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rp 0"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Rp 65.000"
-                            android:textStyle="bold"
-                            app:layout_constraintEnd_toEndOf="parent" />
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal">
 
-                        <!-- Payment -->
+                            <ImageView
+                                android:id="@+id/imageView3"
+                                android:layout_width="97dp"
+                                android:layout_height="28dp"
+                                app:srcCompat="@drawable/dana" />
 
-                        <!-- Gopay -->
+                            <TextView
+                                android:id="@+id/textView7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="18dp"
+                                android:gravity="center"
+                                android:text="62 882-0081-25007 (Lidia Febri)"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
 
-                        <!-- Upload -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/imageView4"
+                                android:layout_width="97dp"
+                                android:layout_height="28dp"
+                                app:srcCompat="@drawable/gopay" />
+
+                            <TextView
+                                android:id="@+id/textView8"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="18dp"
+                                android:gravity="center"
+                                android:text="62 882-0081-25007 (Lidia Febri)"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/imageView5"
+                                android:layout_width="97dp"
+                                android:layout_height="28dp"
+                                app:srcCompat="@drawable/mandiri" />
+
+                            <TextView
+                                android:id="@+id/textView9"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="18dp"
+                                android:gravity="center"
+                                android:text="244562278 (Lidia Febriani)"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/buktiTfBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginBottom="28dp"
+                            android:background="@drawable/full_corners_green_medium_bg"
+                            android:hint="Bukti Transfer"
+                            android:padding="8dp"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/black_medium"
+                            android:textSize="18sp" />
+
+                        <ImageView
+                            android:id="@+id/buktiTfImg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="200dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="16dp"
+                            tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
                         <Button
                             android:id="@+id/btnBuy"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="24dp"
                             android:backgroundTint="@color/green_medium"
                             android:text="BAYAR"
                             android:textColor="@color/black_medium"
