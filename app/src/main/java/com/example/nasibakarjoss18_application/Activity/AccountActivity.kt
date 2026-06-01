@@ -40,9 +40,6 @@ class AccountActivity : AppCompatActivity() {
         userViewModel.userLogin.observe(this) { user ->
             Log.d("USERlogin", user.toString())
             user?.let {
-                if (it.role != "kasir") {
-                    binding.goToKasirBtn.visibility = View.GONE
-                }
                 binding.usernameValueTxt.setText(it.username.toString())
                 binding.emailValueTxt.setText(it.email.toString())
                 binding.roleValueTxt.setText(it.role.toString())

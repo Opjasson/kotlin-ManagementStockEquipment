@@ -28,25 +28,42 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="8dp"
-                android:paddingLeft="12dp">
+                android:padding="8dp">
 
-                <TextView
-                    android:id="@+id/kategoriTxt"
-                    android:layout_width="222dp"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:text="Perhatikan stok peralatan hampir habis disini ..."
-                    android:textColor="@color/black"
-                    android:textSize="30sp" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/kategoriTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:text="Perhatikan stok peralatan hampir habis disini ..."
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/totalStokTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="monospace"
+                        android:text="Total Stok: 0"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/glassBtn"
                     android:layout_width="71dp"
                     android:layout_height="87dp"
-                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
                     app:srcCompat="@drawable/notificationalert" />
 
             </LinearLayout>
@@ -86,7 +103,7 @@
                     android:id="@+id/alatMakanView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="90dp"
+                    android:paddingBottom="24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +141,7 @@
                     android:id="@+id/alatMasakView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="90dp"
+                    android:paddingBottom="24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -162,7 +179,7 @@
                     android:id="@+id/alatCuciView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="90dp"
+                    android:paddingBottom="100dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
