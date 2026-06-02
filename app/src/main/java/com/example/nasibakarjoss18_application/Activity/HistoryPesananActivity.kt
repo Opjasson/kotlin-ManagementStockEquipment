@@ -78,6 +78,13 @@ class HistoryPesananActivity : AppCompatActivity() {
         drawerLayout = binding.drawerLayout
         val navigationView = binding.navigationView
 
+        // Logic untuk menyembunyikan menu berdasarkan role
+        userViewModel.userLogin.observe(this) { user ->
+            if (user?.role == "kasir") {
+                navigationView.menu.findItem(R.id.menu_manageProduct).isVisible = false
+                navigationView.menu.findItem(R.id.menu_laporan).isVisible = false
+            }
+        }
         val toggle = ActionBarDrawerToggle(
             this,
             drawerLayout,

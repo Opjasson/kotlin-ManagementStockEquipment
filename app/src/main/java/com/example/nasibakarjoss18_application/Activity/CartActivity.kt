@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -48,6 +49,8 @@ class CartActivity : AppCompatActivity() {
         binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Inisialisasi AuthViewModel dan UserPreference
+        authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         userPreference = UserPreference(this)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -55,6 +58,9 @@ class CartActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Panggil data user login
+        userViewModel.getUserByUid()
 
         initHandleBuy()
         initSideBar()
@@ -66,6 +72,14 @@ class CartActivity : AppCompatActivity() {
 
         drawerLayout = binding.drawerLayout
         val navigationView = binding.navigationView
+
+        // Logic untuk menyembunyikan menu berdasarkan role
+        userViewModel.userLogin.observe(this) { user ->
+            if (user?.role == "kasir") {
+                navigationView.menu.findItem(R.id.menu_manageProduct).isVisible = false
+                navigationView.menu.findItem(R.id.menu_laporan).isVisible = false
+            }
+        }
 
         val toggle = ActionBarDrawerToggle(
             this,

@@ -131,6 +131,7 @@ class CashierActivity : AppCompatActivity() {
         userViewModel.userLogin.observe(this) { user ->
             if (user?.role == "kasir") {
                 navigationView.menu.findItem(R.id.menu_manageProduct).isVisible = false
+                navigationView.menu.findItem(R.id.menu_laporan).isVisible = false
             }
         }
 
