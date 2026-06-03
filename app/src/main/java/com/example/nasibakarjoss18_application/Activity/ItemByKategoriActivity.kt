@@ -53,8 +53,9 @@ class ItemByKategoriActivity : AppCompatActivity() {
         }
         viewModel.alatMakanAllResult.observe(this) {
             list ->
-            Log.d("ALL", list.toString())
+            Log.d("ALL", list.size.toString())
             binding.loadItems.visibility = View.GONE
+            binding.jmlItemTxt.text = list.size.toString()
             itemsAdapter.setData(list)
         }
         viewModel.getAlatMakanAll(intent.getLongExtra("id", 1)!!)
