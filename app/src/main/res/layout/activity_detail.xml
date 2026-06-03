@@ -14,20 +14,20 @@
         android:layout_height="224dp"
         android:background="@drawable/bottom_corners_greenmedium_bg"
         android:padding="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@id/scrollView2">
 
         <ImageView
             android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/brown_full_corners_bg"
             android:padding="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/back" />
 
         <TextView
@@ -72,6 +72,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp"
+            android:paddingBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
