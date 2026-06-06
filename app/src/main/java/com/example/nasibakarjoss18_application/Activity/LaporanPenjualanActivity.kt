@@ -24,6 +24,7 @@ import com.example.nasibakarjoss18_application.DataStore.UserPreference
 import com.example.nasibakarjoss18_application.R
 import com.example.nasibakarjoss18_application.ViewModel.AuthViewModel
 import com.example.nasibakarjoss18_application.ViewModel.TransaksiViewModel
+import com.example.nasibakarjoss18_application.ViewModel.UserViewModel
 import com.example.nasibakarjoss18_application.databinding.ActivityLaporanPenjualanBinding
 import kotlinx.coroutines.launch
 import java.io.File
@@ -40,6 +41,7 @@ class LaporanPenjualanActivity : AppCompatActivity() {
     private lateinit var userPreference: UserPreference
     private lateinit var authViewModel: AuthViewModel
     private val formatter = NumberFormat.getInstance(Locale("id", "ID"))
+    private val userViewModel = UserViewModel()
 
     private var dateFrom: String = ""
     private var dateTo: String = ""
@@ -155,6 +157,13 @@ class LaporanPenjualanActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val navigationView = binding.navigationView
+
+        // Logic untuk menyembunyikan menu berdasarkan role
+        userViewModel.userLogin.observe(this) { user ->
+            if (user?.role == "kasir") {
+                navigationView.menu.findItem(R.id.menu_manageProduct).isVisible = false
+            }
+        }
 
         val toggle = ActionBarDrawerToggle(
             this,
