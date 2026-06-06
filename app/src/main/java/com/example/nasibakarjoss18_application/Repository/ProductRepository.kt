@@ -42,6 +42,38 @@ class ProductRepository {
             }
     }
 
+    // Fungsi untuk mengubah/update data produk
+    fun updateItem(
+        productId: String,
+        nama_product: String,
+        deskripsi_product: String,
+        harga_product: Long,
+        kategori_product: String,
+        imgUrl: String,
+        promo: Boolean,
+        stok_product: Long,
+        onResult: (Boolean) -> Unit
+    ) {
+        val data = mapOf(
+            "nama_product" to nama_product,
+            "deskripsi_product" to deskripsi_product,
+            "harga_product" to harga_product,
+            "kategori_product" to kategori_product,
+            "imgUrl" to imgUrl,
+            "promo" to promo,
+            "stok_product" to stok_product
+        )
+        database.collection("product")
+            .document(productId)
+            .update(data)
+            .addOnSuccessListener {
+                onResult(true)
+            }
+            .addOnFailureListener {
+                onResult(false)
+            }
+    }
+
     // Fungsi untuk mengurangi stok produk
     fun reduceStock(productId: String, amount: Long, onResult: (Boolean) -> Unit) {
         database.collection("product")

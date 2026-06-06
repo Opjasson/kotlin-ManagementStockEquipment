@@ -166,6 +166,11 @@ class LaporanPenjualanActivity : AppCompatActivity() {
             if (user?.role == "kasir") {
                 navigationView.menu.findItem(R.id.menu_manageProduct).isVisible = false
                 navigationView.menu.findItem(R.id.menu_laporan).isVisible = false
+                
+                // Keamanan tambahan: Redirect kasir jika mencoba masuk ke halaman laporan
+                Toast.makeText(this, "Akses ditolak: Halaman khusus Admin", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, CashierActivity::class.java))
+                finish()
             }
         }
 

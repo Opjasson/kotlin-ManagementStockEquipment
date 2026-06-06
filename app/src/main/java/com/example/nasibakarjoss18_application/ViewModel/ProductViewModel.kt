@@ -52,6 +52,25 @@ class ProductViewModel : ViewModel() {
         }
     }
 
+    // Update item
+    val updateStatus = MutableLiveData<Boolean>()
+
+    fun updateItem(
+        productId: String,
+        nama_product: String,
+        deskripsi_product: String,
+        harga_product: Long,
+        kategori_product: String,
+        imgUrl: String,
+        promo: Boolean,
+        stok_product: Long,
+    ) {
+        repository.updateItem(productId, nama_product, deskripsi_product, harga_product, kategori_product,
+            imgUrl, promo, stok_product) {
+            updateStatus.value = it
+        }
+    }
+
     //    Get all items
     private val _searchResult = MutableLiveData<List<ProductModel>>()
     val searchResult: LiveData<List<ProductModel>> = _searchResult
@@ -91,15 +110,5 @@ class ProductViewModel : ViewModel() {
             _productOfferResult.value = it
         }
     }
-
-    //    get product by itemId
-//    private val _productIdResult = MutableLiveData<ProductModel>()
-//    val productIdResult: LiveData<ProductModel> = _productIdResult
-//
-//    fun getProductById(id : String) {
-//        repository.getProductByProductId(id) {
-//            _productIdResult.value = it
-//        }
-//    }
 
 }

@@ -5,13 +5,12 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.nasibakarjoss18_application.Activity.CashierActivity
+import com.example.nasibakarjoss18_application.Activity.EditProductActivity
+import com.example.nasibakarjoss18_application.Activity.ManageProductActivity
 import com.example.nasibakarjoss18_application.Domain.ProductModel
 import com.example.nasibakarjoss18_application.ViewModel.ProductViewModel
 import com.example.nasibakarjoss18_application.databinding.ViewHolderCardProductBinding
@@ -20,8 +19,10 @@ class ProductAdapter(val items: MutableList<ProductModel>):
     RecyclerView.Adapter<ProductAdapter.Viewholder>() {
     private val viewModel = ProductViewModel()
     lateinit var context: Context
+
     class Viewholder(val binding: ViewHolderCardProductBinding):
         RecyclerView.ViewHolder(binding.root)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductAdapter.Viewholder {
         context= parent.context
         val binding = ViewHolderCardProductBinding.
@@ -30,29 +31,33 @@ class ProductAdapter(val items: MutableList<ProductModel>):
     }
 
     override fun onBindViewHolder(holder: ProductAdapter.Viewholder, position: Int) {
-        holder.binding.titleTxt.text= items[position].nama_product
+        val item = items[position]
+
+        holder.binding.titleTxt.text = item.nama_product
             .replaceFirstChar { it.uppercase() }
-        holder.binding.priceTxt.text="$"+items[position].harga_product.toString()
-        holder.binding.subtitleTxt.text= items[position].deskripsi_product.toString().take(50)
+        holder.binding.priceTxt.text = "Rp " + item.harga_product.toString()
+        holder.binding.subtitleTxt.text = item.deskripsi_product.take(50)
             .replaceFirstChar { it.uppercase() } + "..."
 
-        Glide.with(context).load(items[position].imgUrl).into(holder.binding.pic)
+        Glide.with(context).load(item.imgUrl).into(holder.binding.pic)
 
+        // Tombol Hapus
         holder.binding.deleteBtn.setOnClickListener {
-            viewModel.deleteProduct(items[position].documentId)
+            viewModel.deleteProduct(item.documentId)
             Handler(Looper.getMainLooper()).postDelayed({
-                val intent = Intent(context, CashierActivity::class.java)
-                ContextCompat.startActivity(context, intent, null)
+                val intent = Intent(context, ManageProductActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                context.startActivity(intent)
             }, 500)
         }
 
-
+        // Klik Item untuk Ubah Data
         holder.itemView.setOnClickListener {
-//            val intent = Intent(context, DetailActivity::class.java)
-//            intent.putExtra("object", items[position])
-//            context.startActivity(intent)
+            val intent = Intent(context, EditProductActivity::class.java)
+            intent.putExtra("object", item)
+            context.startActivity(intent)
         }
     }
 
-    override fun getItemCount(): Int =items.size
+    override fun getItemCount(): Int = items.size
 }

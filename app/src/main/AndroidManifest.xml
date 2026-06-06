@@ -15,6 +15,9 @@
         android:theme="@style/Theme.NasiBakarJoss18Application">
         
         <activity
+            android:name=".Activity.EditProductActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.LaporanPenjualanActivity"
             android:exported="false" />
         <activity
