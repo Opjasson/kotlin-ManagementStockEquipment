@@ -1,11 +1,9 @@
 package com.example.nasibakarjoss18_application.Activity
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -39,7 +37,10 @@ class HistoryPesananActivity : AppCompatActivity() {
         binding = ActivityHistoryPesananBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Inisialisasi ViewModel dan Preference
+        authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         userPreference = UserPreference(this)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -48,29 +49,27 @@ class HistoryPesananActivity : AppCompatActivity() {
 
         initSideBar()
         initGetTransaksi()
-
-
     }
 
     private fun initGetTransaksi () {
         userViewModel.getUserByUid()
 
         userViewModel.userLogin.observe(this) { user ->
-            viewModel.loadTransaksiWithCart(user!!.documentId.toString())
+            // Perbaikan: Tambahkan null check untuk mencegah crash
+            if (user != null) {
+                viewModel.loadTransaksiWithCart(user.documentId.toString())
+            }
         }
 
-
-        viewModel.transaksiUI.observe(this){
-                data ->
-            Log.d("HISOTR", data.toString())
-            binding.historyView.layoutManager= LinearLayoutManager(this,
+        viewModel.transaksiUI.observe(this){ data ->
+            Log.d("HISTORY", data.toString())
+            binding.historyView.layoutManager = LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false)
-            binding.historyView.adapter= CardHistoryAdapter(data.toMutableList())
+            binding.historyView.adapter = CardHistoryAdapter(data.toMutableList())
             binding.loadHistory.visibility = View.GONE
         }
-
-
     }
+
     private fun initSideBar () {
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
@@ -84,6 +83,7 @@ class HistoryPesananActivity : AppCompatActivity() {
                 navigationView.menu.findItem(R.id.menu_manageProduct).isVisible = false
             }
         }
+
         val toggle = ActionBarDrawerToggle(
             this,
             drawerLayout,
@@ -107,7 +107,7 @@ class HistoryPesananActivity : AppCompatActivity() {
                     startActivity(Intent(this, CartActivity::class.java))
                 }
                 R.id.menu_history -> {
-                    startActivity(Intent(this, HistoryPesananActivity::class.java))
+                    drawerLayout.closeDrawers()
                 }
                 R.id.menu_laporan -> {
                     startActivity(Intent(this, LaporanPenjualanActivity::class.java))
@@ -133,5 +133,4 @@ class HistoryPesananActivity : AppCompatActivity() {
             finish()
         }
     }
-
 }

@@ -64,6 +64,9 @@ class LaporanPenjualanActivity : AppCompatActivity() {
             insets
         }
 
+        // Memuat data user
+        userViewModel.getUserByUid()
+
         setupRecyclerView()
         setupDatePickers()
         setupObservers()
