@@ -3,6 +3,7 @@ package com.example.nasibakarjoss18_application.Repository
 import com.example.nasibakarjoss18_application.Domain.ProductModel
 import com.example.nasibakarjoss18_application.Helper.ConvertDateTime
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
@@ -39,6 +40,15 @@ class ProductRepository {
             .addOnFailureListener {
                 onResult(false)
             }
+    }
+
+    // Fungsi untuk mengurangi stok produk
+    fun reduceStock(productId: String, amount: Long, onResult: (Boolean) -> Unit) {
+        database.collection("product")
+            .document(productId)
+            .update("stok_product", FieldValue.increment(-amount))
+            .addOnSuccessListener { onResult(true) }
+            .addOnFailureListener { onResult(false) }
     }
 
     //    Get all product

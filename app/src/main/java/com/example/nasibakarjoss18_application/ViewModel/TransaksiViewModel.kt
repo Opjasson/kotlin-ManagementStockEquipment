@@ -9,6 +9,7 @@ import com.example.nasibakarjoss18_application.Domain.HistoryProductModel
 import com.example.nasibakarjoss18_application.Domain.LaporanModel
 import com.example.nasibakarjoss18_application.Domain.LaporanProductModel
 import com.example.nasibakarjoss18_application.Domain.TransaksiWithCartModel
+import com.example.nasibakarjoss18_application.Repository.ProductRepository
 import com.example.nasibakarjoss18_application.Repository.TransaksiRepository
 import com.example.nasibakarjoss18_application.Repository.UserRepository
 import kotlinx.coroutines.launch
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 class TransaksiViewModel : ViewModel() {
     private val repository = TransaksiRepository()
     private val repositoryUser = UserRepository()
+    private val repositoryProduct = ProductRepository()
 
     //    Create item
     val createStatus = MutableLiveData<String>()
@@ -52,6 +54,26 @@ class TransaksiViewModel : ViewModel() {
     ) {
         repository.updateTransaksi(transaksiId, totalHarga, nominalBayar, catatanTambahan, buktiTransfer) {
             updateStatus.value = it
+        }
+    }
+
+    // Fungsi untuk memicu pengurangan stok setelah pembayaran
+    fun reduceStockAfterPayment(transaksiId: String) {
+        viewModelScope.launch {
+            try {
+                val carts = repository.getCartHistoryTransaksi(transaksiId)
+                carts.forEach { cart ->
+                    repositoryProduct.reduceStock(cart.productId, cart.jumlah) { success ->
+                        if (!success) {
+                            Log.e("STOK_UPDATE", "Gagal mengurangi stok untuk produk ID: ${cart.productId}")
+                        } else {
+                            Log.d("STOK_UPDATE", "Berhasil mengurangi stok produk ID: ${cart.productId} sebanyak ${cart.jumlah}")
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("STOK_UPDATE", "Error saat memproses pengurangan stok: ${e.message}")
+            }
         }
     }
 

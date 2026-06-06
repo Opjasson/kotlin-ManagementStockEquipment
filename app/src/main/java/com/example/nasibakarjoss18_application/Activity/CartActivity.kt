@@ -188,11 +188,10 @@ class CartActivity : AppCompatActivity() {
                         return@setOnClickListener
                     }
 
-                    // For transfer payment, ensure image is uploaded
-                    // If nominal is exactly total or user wants to save proof
-                    // Here we save both
+                    val transaksiId = list[0].transaksiId
+
                     viewModelTransaksi.updateTransaksi(
-                        list[0].transaksiId,
+                        transaksiId,
                         totalHarga.toLong(),
                         nominalBayar,
                         "", // catatanTambahan (bisa dikosongkan)
@@ -201,6 +200,9 @@ class CartActivity : AppCompatActivity() {
 
                     viewModelTransaksi.updateStatus.observe(this) { success ->
                         if (success) {
+                            // 🔥 OTOMATIS KURANGI STOK SETELAH BAYAR
+                            viewModelTransaksi.reduceStockAfterPayment(transaksiId)
+
                             Toast.makeText(this, "Pesanan Berhasil Dibayar", Toast.LENGTH_SHORT).show()
                             lifecycleScope.launch {
                                 prefRepo.clearTransactionId()
