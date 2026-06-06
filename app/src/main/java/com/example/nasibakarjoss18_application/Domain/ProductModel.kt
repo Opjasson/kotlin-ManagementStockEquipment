@@ -10,5 +10,6 @@ data class ProductModel(
     var imgUrl : String = "",
     var kategori_product : String = "",
     var promo : Boolean = false,
+    var stok_product : Long = 0,
     var createdAt : String = ""
 ) : Serializable

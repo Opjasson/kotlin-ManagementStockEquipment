@@ -18,6 +18,7 @@ class ProductRepository {
         kategori_product: String,
         imgUrl: String,
         promo: Boolean,
+        stok_product: Long,
         onResult: (Boolean) -> Unit
     ) {
         var data = mapOf(
@@ -27,6 +28,7 @@ class ProductRepository {
             "kategori_product" to kategori_product,
             "imgUrl" to imgUrl,
             "promo" to promo,
+            "stok_product" to stok_product,
             "createdAt" to convertDate.formatTimestamp(Timestamp.now())
         )
         database.collection("product")

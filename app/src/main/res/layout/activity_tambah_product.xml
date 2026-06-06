@@ -61,7 +61,20 @@
                             android:background="@drawable/full_corners_full_stroke_bg"
                             android:ems="10"
                             android:hint="Harga Product"
-                            android:inputType="text"
+                            android:inputType="number"
+                            android:padding="12dp"
+                            android:textColor="@color/black_medium"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/stokItemFormTxt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:background="@drawable/full_corners_full_stroke_bg"
+                            android:ems="10"
+                            android:hint="Stok Product"
+                            android:inputType="number"
                             android:padding="12dp"
                             android:textColor="@color/black_medium"
                             android:textSize="20sp" />

@@ -39,9 +39,10 @@ class ProductViewModel : ViewModel() {
         kategori_product: String,
         imgUrl: String,
         promo: Boolean,
+        stok_product: Long,
     ) {
-        repository.createItem(nama_product, deskripsi_product,harga_product, kategori_product,
-            imgUrl, promo) {
+        repository.createItem(nama_product, deskripsi_product, harga_product, kategori_product,
+            imgUrl, promo, stok_product) {
                 success ->
             if (success){
                 createStatus.value = success

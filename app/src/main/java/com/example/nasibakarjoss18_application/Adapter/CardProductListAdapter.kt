@@ -25,19 +25,22 @@ class CardProductListAdapter(
     }
 
     override fun onBindViewHolder(holder: CardProductListAdapter.Viewholder, position: Int) {
-        holder.binding.titleTxt.text= items[position].nama_product
+        val item = items[position]
+        
+        holder.binding.titleTxt.text= item.nama_product
             .replaceFirstChar { it.uppercase() }
-        holder.binding.priceTxt.text="$"+items[position].harga_product.toString()
-        holder.binding.subtitleTxt.text= items[position].deskripsi_product.toString().take(50)
+        holder.binding.priceTxt.text="Rp "+item.harga_product.toString()
+        holder.binding.subtitleTxt.text= item.deskripsi_product.toString().take(50)
             .replaceFirstChar { it.uppercase() } + "..."
+        
+        // Menampilkan sisa stok
+        holder.binding.stokTxt.text = "Stok: ${item.stok_product}"
 
-        Glide.with(context).load(items[position].imgUrl).into(holder.binding.pic)
+        Glide.with(context).load(item.imgUrl).into(holder.binding.pic)
 
         holder.binding.view.setOnClickListener {
-            onAddToCart(items[position].documentId)
-
+            onAddToCart(item.documentId)
         }
-
     }
 
     override fun getItemCount(): Int =items.size
@@ -47,5 +50,4 @@ class CardProductListAdapter(
         items.addAll(newItems)
         notifyDataSetChanged()
     }
-
 }

@@ -17,7 +17,6 @@ import com.bumptech.glide.Glide
 import com.example.nasibakarjoss18_application.R
 import com.example.nasibakarjoss18_application.ViewModel.ProductViewModel
 import com.example.nasibakarjoss18_application.databinding.ActivityTambahProductBinding
-import kotlin.toString
 
 class TambahProductActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTambahProductBinding
@@ -58,87 +57,56 @@ class TambahProductActivity : AppCompatActivity() {
         }
 
         var kategori = ""
-        var kategoriId : String = ""
-
-//        show data config
+        var promoSelected = false
 
         binding.gambarBarangForm.setOnClickListener {
             binding.picItem.visibility = View.VISIBLE
             pickImage.launch("image/*")
         }
 
-        viewModel.createStatus.observe(this){
-                success ->
+        viewModel.createStatus.observe(this){ success ->
             if (success) {
                 Toast.makeText(this, "Data berhasil dibuat", Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
 
-
-//    Setting drop down
-        val items = listOf("minuman", "makanan")
-
-        val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_dropdown_item_1line,
-            items
-        )
-
-        if (binding.dropdownMenu.text.isNullOrEmpty()) {
-            binding.dropdownLayout.error = "Harus dipilih"
-        } else {
-            binding.dropdownLayout.error = null
-        }
-
-        binding.dropdownMenu.setAdapter(adapter)
-
+        // Setting drop down Kategori
+        val itemsKategori = listOf("minuman", "makanan")
+        val adapterKategori = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, itemsKategori)
+        binding.dropdownMenu.setAdapter(adapterKategori)
         binding.dropdownMenu.setOnItemClickListener { _, _, position, _ ->
-            val selected = items[position]
-            kategori = selected
+            kategori = itemsKategori[position]
         }
 
-        //    Setting drop down 2
-        val items2 = listOf("Ya", "Tidak")
-
-        val adapter2 = ArrayAdapter(
-            this,
-            android.R.layout.simple_dropdown_item_1line,
-            items2
-        )
-
-        if (binding.dropdownMenu2.text.isNullOrEmpty()) {
-            binding.dropdownLayout2.error = "Harus dipilih"
-        } else {
-            binding.dropdownLayout2.error = null
-        }
-
-        binding.dropdownMenu2.setAdapter(adapter2)
-
+        // Setting drop down Promo
+        val itemsPromo = listOf("Ya", "Tidak")
+        val adapterPromo = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, itemsPromo)
+        binding.dropdownMenu2.setAdapter(adapterPromo)
         binding.dropdownMenu2.setOnItemClickListener { _, _, position, _ ->
-            val selected2 = items2[position]
-            kategoriId = selected2
+            promoSelected = itemsPromo[position] == "Ya"
+        }
 
-            var kategoriId2 : Boolean = false
+        binding.addProductBtn.setOnClickListener {
+            val nama = binding.nameItemFormTxt.text.toString()
+            val harga = binding.hargaItemFormTxt.text.toString()
+            val stok = binding.stokItemFormTxt.text.toString()
+            val desc = binding.descEdt.text.toString()
 
-            if (kategoriId == "Ya") {
-                kategoriId2 = true
-            }else {
-                kategoriId2 = false
+            if (nama.isEmpty() || harga.isEmpty() || stok.isEmpty() || kategori.isEmpty()) {
+                Toast.makeText(this, "Harap isi semua data", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
 
-            binding.addProductBtn.setOnClickListener {
-                viewModel.createItem(
-                    binding.nameItemFormTxt.text.toString().toLowerCase(),
-                    binding.descEdt.text.toString(),
-                    binding.hargaItemFormTxt.text.toString().toLong(),
-                    kategori,
-                    imgUrl,
-                    kategoriId2,
-                )
-
-            }
-
+            viewModel.createItem(
+                nama.lowercase(),
+                desc,
+                harga.toLong(),
+                kategori,
+                imgUrl,
+                promoSelected,
+                stok.toLong()
+            )
         }
     }
 
@@ -147,7 +115,6 @@ class TambahProductActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         drawerLayout = binding.drawerLayout
-
         val navigationView = binding.navigationView
 
         val toggle = ActionBarDrawerToggle(
@@ -164,8 +131,8 @@ class TambahProductActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_home -> {
-                startActivity(Intent(this, CashierActivity::class.java))
-            }
+                    startActivity(Intent(this, CashierActivity::class.java))
+                }
                 R.id.menu_manageProduct -> {
                     startActivity(Intent(this, ManageProductActivity::class.java))
                 }
@@ -175,10 +142,6 @@ class TambahProductActivity : AppCompatActivity() {
                 R.id.menu_history -> {
                     startActivity(Intent(this, HistoryPesananActivity::class.java))
                 }
-//                R.id.menu_laporan -> {
-//                    startActivity(Intent(this, LaporanTransactionActivity::class.java))
-//                }
-
             }
             drawerLayout.closeDrawers()
             true
